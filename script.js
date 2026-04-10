@@ -1057,6 +1057,30 @@ document.addEventListener('DOMContentLoaded', () => {
       enviarDriveStatus.style.color = '#555';
       enviarDriveStatus.textContent = 'Conectando con Google Drive...';
 
+      // 1. CONGELAR VISUALMENTE EL FORMULARIO PARA QUE NO MODIFIQUEN NADA
+      // Creamos un escudo impenetrable en CSS en el contenedor principal
+      document.querySelector('.wps-form').style.pointerEvents = 'none';
+      document.querySelector('.wps-form').style.opacity = '0.7';
+      
+      // También lo aplicamos uno por uno por si acaso
+      document.querySelectorAll('input, select, button').forEach(el => {
+        if (el.id !== 'btnEnviarDrive') {
+          el.disabled = true;
+        }
+      });
+
+      // El de evaluar lo machacamos visualmente
+      const evaluarBtn = document.getElementById('btnEvaluar');
+      if (evaluarBtn) {
+        evaluarBtn.style.display = 'none';
+      }
+      
+      // Restauramos los eventos y la visibilidad del panel de resultados para que SÍ puedan interactuar aquí
+      const evaluationPanel = document.getElementById('evaluationPanel');
+      if (evaluationPanel) {
+        evaluationPanel.style.pointerEvents = 'auto'; // este sí se puede tocar
+      }
+
       try {
         // Usar POST con mode: \'no-cors\' es común en GAS gratuito,
         // pero hace que la respuesta sea opaca (response.ok siempre es false)
