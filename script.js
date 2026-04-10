@@ -1026,7 +1026,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnEnviarDrive) {
     btnEnviarDrive.addEventListener('click', async () => {
       // ¡ATENCIÓN! Reemplazar esta URL por la proporcionada al desplegar tu Google Apps Script
-      const GAS_URL = "URL_DE_TU_SCRIPT_AQUI"; 
+      const GAS_URL = "https://script.google.com/a/macros/iesremedios.es/s/AKfycbxkAcI4NpM1m1rH9YUhNUHUNmt5x9WhPN7q51WeAecqGG4-QkY6_isCqROfoWQjbo3E/exec"; 
       
       if (GAS_URL === "URL_DE_TU_SCRIPT_AQUI") {
         enviarDriveStatus.style.display = 'block';
@@ -1036,12 +1036,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const payload = {
-        nombre: document.getElementById('nombre').value,
         fecha: document.getElementById('fecha').value,
-        curso: document.getElementById('curso').value,
-        wpsNumber: document.getElementById('wpsNumber').value,
-        puntuacionFinal: scoreCircle.textContent, // La nota generada
-        practicas: selectedPractices.join(', ')
+        nombre: document.getElementById('nombre').value,
+        ejercicio: "WPS " + document.getElementById('wpsNumber').value + " (" + selectedPractices.join(', ') + ")",
+        nota: scoreCircle.textContent
       };
 
       btnEnviarDrive.disabled = true;

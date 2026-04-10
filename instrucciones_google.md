@@ -47,28 +47,23 @@ He dejado preparado un botón en la aplicación ("Enviar a Google Drive"). Ahora
 // La función doPost se ejecuta cuando la web de Github envía los datos
 function doPost(e) {
   try {
-    // Abrir la hoja actual
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    
-    // Leer los datos recibidos desde la web
     var data = JSON.parse(e.postData.contents);
     
-    // Obtener fecha y hora actuales
-    var timestamp = new Date();
-    
-    // Insertar la fila
+    // Las columnas de tu hoja actual: 
+    // A: Evaluación | B: RA | C: CE | D: Fecha | E: Correo | F: Nombre | G: Ejercicio | H: Nota
     sheet.appendRow([
-      timestamp,
-      data.nombre,
-      data.fecha,
-      data.curso,
-      data.wpsNumber,
-      data.puntuacionFinal,
-      data.practicas
+      "",                // A: Evaluación (en blanco por ahora)
+      "",                // B: RA (en blanco por ahora)
+      "",                // C: CE (en blanco por ahora)
+      data.fecha,        // D: Fecha
+      "",                // E: Correo (en blanco por ahora)
+      data.nombre,       // F: Nombre
+      data.ejercicio,    // G: Ejercicio (Ej: "WPS 1 (P2 TIG)")
+      data.nota          // H: Nota
     ]);
     
-    // En las versiones gratuitas (no-cors) esta respuesta técnica es ignorada, 
-    // pero es buena práctica devolver un 200 OK.
+    // Respuesta para que fetch no lance errores
     return ContentService.createTextOutput(JSON.stringify({"status": "success"}))
       .setMimeType(ContentService.MimeType.JSON);
       
