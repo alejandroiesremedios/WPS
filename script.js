@@ -1000,28 +1000,31 @@ document.addEventListener('DOMContentLoaded', () => {
     
     scoreCircle.textContent = notaFinal;
     
+    const evaluationPanel = document.getElementById('evaluationPanel');
+    
     // Si hay campos incompletos, cambiar el mensaje de la pantalla final sin bloquearlo
     const driveBtn = document.getElementById('btnEnviarDrive');
     if (incomplete) {
       modalTitle.textContent = 'Faltan cosas por rellenar';
-      modalSummary.textContent = `Tu nota actual es ${notaFinal} de 10. ¡Tu nota puede ser mejor si cierras esto y rellenando las casillas rojas!`;
+      modalSummary.textContent = `Tu nota actual es ${notaFinal} de 10. ¡Tu nota puede ser mejor si corriges las casillas rojas!`;
       if (driveBtn) {
         driveBtn.textContent = 'Entregar bajo mi responsabilidad';
         driveBtn.style.backgroundColor = '#d97706'; // Naranja para advertir
       }
     } else {
       modalTitle.textContent = notaFinal >= 5 ? '¡Buen trabajo!' : 'Necesitas mejorar';
-      modalSummary.textContent = `Tu puntuación final es de ${notaFinal} sobre 10. Revisa los detalles en el panel lateral para ver en qué has fallado.`;
+      modalSummary.textContent = `Tu puntuación final es de ${notaFinal} sobre 10. Revisa los detalles arriba para ver en qué has fallado.`;
       if (driveBtn) {
         driveBtn.textContent = 'Enviar a Google Drive';
         driveBtn.style.backgroundColor = '#0f9d58'; // Verde normal
       }
     }
     
-    modal.classList.add('active');
+    evaluationPanel.style.display = 'block';
+    
+    // Auto-scroll liso hacia abajo para que el alumno vea el panel que ha aparecido
+    evaluationPanel.scrollIntoView({ behavior: 'smooth', block: 'end' });
   });
-
-  btnCloseModal.addEventListener('click', () => modal.classList.remove('active'));
 
   // =============================================
   // ENVÍO A GOOGLE DRIVE (GOOGLE APPS SCRIPT)

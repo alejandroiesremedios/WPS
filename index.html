@@ -1136,19 +1136,14 @@
     </form>
   </div>
 
-  <!-- Modal de Resultados -->
-  <div class="modal-overlay" id="resultadosModal">
-    <div class="modal-content">
-      <div class="score-circle" id="scoreCircle">--</div>
-      <h2 class="modal-title" id="modalTitle">¡Evaluación Completada!</h2>
-      <p class="modal-text" id="modalSummary">Has obtenido una puntuación de X sobre Y. Revisa los campos marcados en rojo en el formulario para ver la retroalimentación.</p>
-      
-      <!-- NUEVO: Botón para enviar a Google Drive -->
-      <button class="btn-submit" id="btnEnviarDrive" style="margin-bottom: 0.5rem; background-color: #0f9d58;">Enviar a Google Drive</button>
-      <p id="enviarDriveStatus" style="font-size: 0.85rem; margin-top: 0.5rem; display: none;"></p>
-      
-      <button class="btn-close" id="btnCloseModal">Volver al Formulario</button>
-    </div>
+  <!-- Panel de Resultados Integrado (reemplaza al modal bloqueado) -->
+  <div id="evaluationPanel" style="display: none; margin-top: 2rem; padding: 2.5rem; background: #f8fafc; border-radius: 8px; border: 2px solid #cbd5e1; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); max-width: 800px; margin-left: auto; margin-right: auto;">
+    <div class="score-circle" id="scoreCircle" style="margin: 0 auto 1.5rem;">--</div>
+    <h2 class="modal-title" id="modalTitle" style="color: #1e3a8a; margin-bottom: 0.5rem; font-size: 1.5rem; font-weight: 700;">Resultados</h2>
+    <p class="modal-text" id="modalSummary" style="color: #475569; margin-bottom: 2rem; line-height: 1.5; font-size: 1.05rem;"></p>
+    
+    <button class="btn-submit" id="btnEnviarDrive" style="margin-bottom: 0.5rem; background-color: #0f9d58; padding: 1rem 2rem; font-size: 1.1rem; width: 100%; max-width: 400px; margin-left: auto; margin-right: auto; display: block;">Enviar a Google Drive</button>
+    <p id="enviarDriveStatus" style="font-size: 0.95rem; margin-top: 0.5rem; display: none; font-weight: 600;"></p>
   </div>
 
 
