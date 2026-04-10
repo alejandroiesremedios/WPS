@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tabla de Calificaciones WPS 1-4</title>
+<style>
+  body { font-family: 'Segoe UI', Calibri, sans-serif; font-size: 9pt; margin: 20px; color: #111; }
+  h1 { font-size: 13pt; text-align: center; margin-bottom: 4px; }
+  p.subtitle { font-size: 8pt; font-style: italic; text-align: center; color: #555; margin-bottom: 16px; }
+  table { border-collapse: collapse; width: 100%; table-layout: fixed; }
+  col.col-param { width: 22%; }
+  col.col-wps   { width: 19.5%; }
+  th, td { border: 1px solid #000; padding: 4px 5px; vertical-align: top; font-size: 8pt; word-wrap: break-word; }
+  th.hdr-param { background: #e8e8e8; font-weight: bold; }
+  th.hdr-wps   { background: #1e3a5f; color: #fff; font-weight: bold; text-align: center; }
+  td.param { background: #f5f5f5; font-weight: bold; }
+  .section-row td { background: #d9e8f5; font-weight: bold; text-align: center; font-size: 8.5pt; border-top: 2px solid #1e3a5f; }
+  .dash { color: #999; }
+
+  /* MÓVIL: cada celda apilada */
+  @media (max-width: 700px) {
+    table, thead, tbody, th, td, tr { display: block; width: 100%; box-sizing: border-box; }
+    thead { display: none; }
+    .section-row td { border-top: 3px solid #1e3a5f; }
+    tr { margin-bottom: 8px; border: 1px solid #ccc; border-radius: 4px; overflow: hidden; }
+    td { border: none; border-bottom: 1px solid #ddd; padding: 5px 8px; }
+    td.param { background: #e8f0fb; font-size: 8pt; }
+    td:not(.param):not(.section-row td)::before {
+      content: attr(data-wps);
+      display: block;
+      font-weight: bold;
+      font-size: 7pt;
+      color: #1e3a5f;
+      margin-bottom: 2px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<h1>TABLA DE CALIFICACIONES — WPS 1 a 4</h1>
+<p class="subtitle">Referencia para la corrección automática. Cada columna corresponde a un documento WPS del menú desplegable.</p>
+
+<table>
+  <colgroup>
+    <col class="col-param">
+    <col class="col-wps"><col class="col-wps"><col class="col-wps"><col class="col-wps">
+  </colgroup>
+  <thead>
+    <tr>
+      <th class="hdr-param">Parámetro</th>
+      <th class="hdr-wps">WPS 1</th>
+      <th class="hdr-wps">WPS 2</th>
+      <th class="hdr-wps">WPS 3</th>
+      <th class="hdr-wps">WPS 4</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr class="section-row"><td colspan="5">DATOS GENERALES</td></tr>
+    <tr>
+      <td class="param">Nº Documento</td>
+      <td data-wps="WPS 1">WPS 1</td><td data-wps="WPS 2">WPS 2</td><td data-wps="WPS 3">WPS 3</td><td data-wps="WPS 4">WPS 4</td>
+    </tr>
+    <tr>
+      <td class="param">Prácticas</td>
+      <td data-wps="WPS 1">P2 TIG &amp; P2 MAG</td>
+      <td data-wps="WPS 2">P3 TIG, P3 MAG, P4 TIG, P4 MAG</td>
+      <td data-wps="WPS 3">P5 TIG, P5 MAG, P6 TIG, P6 MAG</td>
+      <td data-wps="WPS 4">P8 TIG, P8 MAG, P9 TIG, P9 MAG</td>
+    </tr>
+    <tr>
+      <td class="param">Material Base</td>
+      <td data-wps="WPS 1">S235JR</td><td data-wps="WPS 2">S235JR</td><td data-wps="WPS 3">S235JR</td><td data-wps="WPS 4">S235JR</td>
+    </tr>
+    <tr>
+      <td class="param">Largo (mm)</td>
+      <td data-wps="WPS 1">240</td><td data-wps="WPS 2">240</td><td data-wps="WPS 3">240</td><td data-wps="WPS 4">240</td>
+    </tr>
+    <tr>
+      <td class="param">Ancho (mm)</td>
+      <td data-wps="WPS 1">60 – 80</td><td data-wps="WPS 2">172</td><td data-wps="WPS 3">172</td><td data-wps="WPS 4">172</td>
+    </tr>
+    <tr>
+      <td class="param">Espesor (mm)</td>
+      <td data-wps="WPS 1">4 – 10</td><td data-wps="WPS 2">10</td><td data-wps="WPS 3">10</td><td data-wps="WPS 4">10</td>
+    </tr>
+    <tr>
+      <td class="param">Preparación Bordes</td>
+      <td data-wps="WPS 1">Rectos</td><td data-wps="WPS 2">Chaflán en V</td><td data-wps="WPS 3">Chaflán en V</td><td data-wps="WPS 4">Chaflán en V</td>
+    </tr>
+    <tr>
+      <td class="param">Tipo de Unión</td>
+      <td data-wps="WPS 1">Ángulo (T)</td><td data-wps="WPS 2">Tope</td><td data-wps="WPS 3">Tope</td><td data-wps="WPS 4">Tope</td>
+    </tr>
+    <tr>
+      <td class="param">Posición AWS</td>
+      <td data-wps="WPS 1">2F</td><td data-wps="WPS 2">1G</td><td data-wps="WPS 3">2G</td><td data-wps="WPS 4">3G</td>
+    </tr>
+    <tr>
+      <td class="param">Posición ISO</td>
+      <td data-wps="WPS 1">PB</td><td data-wps="WPS 2">PA</td><td data-wps="WPS 3">PC</td><td data-wps="WPS 4">PF</td>
+    </tr>
+
+    <tr class="section-row"><td colspan="5">CAPA 1: RAÍZ (TIG / GTAW)</td></tr>
+    <tr><td class="param">Proceso (Común)</td><td data-wps="WPS 1">TIG</td><td data-wps="WPS 2">TIG</td><td data-wps="WPS 3">TIG</td><td data-wps="WPS 4">TIG</td></tr>
+    <tr><td class="param">Proceso (ISO)</td><td data-wps="WPS 1">141</td><td data-wps="WPS 2">141</td><td data-wps="WPS 3">141</td><td data-wps="WPS 4">141</td></tr>
+    <tr><td class="param">Proceso (AWS)</td><td data-wps="WPS 1">GTAW</td><td data-wps="WPS 2">GTAW</td><td data-wps="WPS 3">GTAW</td><td data-wps="WPS 4">GTAW</td></tr>
+    <tr><td class="param">Ø Consumible (mm)</td><td data-wps="WPS 1">2.0 / 2.4</td><td data-wps="WPS 2">2.0 / 2.4</td><td data-wps="WPS 3">2.0 / 2.4</td><td data-wps="WPS 4">2.0 / 2.4</td></tr>
+    <tr><td class="param">Consumible (ISO)</td><td data-wps="WPS 1">W3Si1</td><td data-wps="WPS 2">W3Si1</td><td data-wps="WPS 3">W3Si1</td><td data-wps="WPS 4">W3Si1</td></tr>
+    <tr><td class="param">Consumible (AWS)</td><td data-wps="WPS 1">ER70S-6</td><td data-wps="WPS 2">ER70S-6</td><td data-wps="WPS 3">ER70S-6</td><td data-wps="WPS 4">ER70S-6</td></tr>
+    <tr><td class="param">Gas (Tipo)</td><td data-wps="WPS 1">Argón 100%</td><td data-wps="WPS 2">Argón 100%</td><td data-wps="WPS 3">Argón 100%</td><td data-wps="WPS 4">Argón 100%</td></tr>
+    <tr><td class="param">Gas (ISO 14175)</td><td data-wps="WPS 1">I1</td><td data-wps="WPS 2">I1</td><td data-wps="WPS 3">I1</td><td data-wps="WPS 4">I1</td></tr>
+    <tr><td class="param">Gas (AWS A5.32)</td><td data-wps="WPS 1">SG-A</td><td data-wps="WPS 2">SG-A</td><td data-wps="WPS 3">SG-A</td><td data-wps="WPS 4">SG-A</td></tr>
+    <tr><td class="param">Caudal Gas (l/min)</td><td data-wps="WPS 1">6 – 8</td><td data-wps="WPS 2">6 – 8</td><td data-wps="WPS 3">6 – 8</td><td data-wps="WPS 4">6 – 8</td></tr>
+    <tr><td class="param">Tipo Tungsteno</td><td data-wps="WPS 1">Lantano 1,5%</td><td data-wps="WPS 2">Lantano 1,5%</td><td data-wps="WPS 3">Lantano 1,5%</td><td data-wps="WPS 4">Lantano 1,5%</td></tr>
+    <tr><td class="param">Tungsteno (ISO)</td><td data-wps="WPS 1">WL15 (Oro)</td><td data-wps="WPS 2">WL15 (Oro)</td><td data-wps="WPS 3">WL15 (Oro)</td><td data-wps="WPS 4">WL15 (Oro)</td></tr>
+    <tr><td class="param">Tungsteno (AWS)</td><td data-wps="WPS 1">EWLa-1.5 (Oro)</td><td data-wps="WPS 2">EWLa-1.5 (Oro)</td><td data-wps="WPS 3">EWLa-1.5 (Oro)</td><td data-wps="WPS 4">EWLa-1.5 (Oro)</td></tr>
+    <tr><td class="param">Ø Tungsteno (mm)</td><td data-wps="WPS 1">2.4</td><td data-wps="WPS 2">2.4</td><td data-wps="WPS 3">2.4</td><td data-wps="WPS 4">2.4</td></tr>
+    <tr><td class="param">Amperaje (A)</td><td data-wps="WPS 1">Cualquiera &gt; 0</td><td data-wps="WPS 2">Cualquiera &gt; 0</td><td data-wps="WPS 3">Cualquiera &gt; 0</td><td data-wps="WPS 4">Cualquiera &gt; 0</td></tr>
+    <tr><td class="param">Voltaje (V)</td><td data-wps="WPS 1" class="dash">—</td><td data-wps="WPS 2" class="dash">—</td><td data-wps="WPS 3" class="dash">—</td><td data-wps="WPS 4" class="dash">—</td></tr>
+    <tr><td class="param">Vel. Hilo (m/min)</td><td data-wps="WPS 1" class="dash">—</td><td data-wps="WPS 2" class="dash">—</td><td data-wps="WPS 3" class="dash">—</td><td data-wps="WPS 4" class="dash">—</td></tr>
+    <tr><td class="param">Empuje/Arrastre</td><td data-wps="WPS 1">Cualquiera</td><td data-wps="WPS 2">Cualquiera</td><td data-wps="WPS 3">Cualquiera</td><td data-wps="WPS 4">Cualquiera</td></tr>
+
+    <tr class="section-row"><td colspan="5">CAPA 2: REFUERZO (TIG / GTAW)</td></tr>
+    <tr><td class="param">Proceso (Común)</td><td data-wps="WPS 1">TIG</td><td data-wps="WPS 2">TIG</td><td data-wps="WPS 3">TIG</td><td data-wps="WPS 4">TIG</td></tr>
+    <tr><td class="param">Proceso (ISO)</td><td data-wps="WPS 1">141</td><td data-wps="WPS 2">141</td><td data-wps="WPS 3">141</td><td data-wps="WPS 4">141</td></tr>
+    <tr><td class="param">Proceso (AWS)</td><td data-wps="WPS 1">GTAW</td><td data-wps="WPS 2">GTAW</td><td data-wps="WPS 3">GTAW</td><td data-wps="WPS 4">GTAW</td></tr>
+    <tr><td class="param">Ø Consumible (mm)</td><td data-wps="WPS 1">2.0 / 2.4</td><td data-wps="WPS 2">2.0 / 2.4</td><td data-wps="WPS 3">2.0 / 2.4</td><td data-wps="WPS 4">2.0 / 2.4</td></tr>
+    <tr><td class="param">Consumible (ISO)</td><td data-wps="WPS 1">W3Si1</td><td data-wps="WPS 2">W3Si1</td><td data-wps="WPS 3">W3Si1</td><td data-wps="WPS 4">W3Si1</td></tr>
+    <tr><td class="param">Consumible (AWS)</td><td data-wps="WPS 1">ER70S-6</td><td data-wps="WPS 2">ER70S-6</td><td data-wps="WPS 3">ER70S-6</td><td data-wps="WPS 4">ER70S-6</td></tr>
+    <tr><td class="param">Gas (Tipo)</td><td data-wps="WPS 1">Argón 100%</td><td data-wps="WPS 2">Argón 100%</td><td data-wps="WPS 3">Argón 100%</td><td data-wps="WPS 4">Argón 100%</td></tr>
+    <tr><td class="param">Gas (ISO 14175)</td><td data-wps="WPS 1">I1</td><td data-wps="WPS 2">I1</td><td data-wps="WPS 3">I1</td><td data-wps="WPS 4">I1</td></tr>
+    <tr><td class="param">Gas (AWS A5.32)</td><td data-wps="WPS 1">SG-A</td><td data-wps="WPS 2">SG-A</td><td data-wps="WPS 3">SG-A</td><td data-wps="WPS 4">SG-A</td></tr>
+    <tr><td class="param">Caudal Gas (l/min)</td><td data-wps="WPS 1">6 – 8</td><td data-wps="WPS 2">6 – 8</td><td data-wps="WPS 3">6 – 8</td><td data-wps="WPS 4">6 – 8</td></tr>
+    <tr><td class="param">Tipo Tungsteno</td><td data-wps="WPS 1">Lantano 1,5%</td><td data-wps="WPS 2">Lantano 1,5%</td><td data-wps="WPS 3">Lantano 1,5%</td><td data-wps="WPS 4">Lantano 1,5%</td></tr>
+    <tr><td class="param">Tungsteno (ISO)</td><td data-wps="WPS 1">WL15 (Oro)</td><td data-wps="WPS 2">WL15 (Oro)</td><td data-wps="WPS 3">WL15 (Oro)</td><td data-wps="WPS 4">WL15 (Oro)</td></tr>
+    <tr><td class="param">Tungsteno (AWS)</td><td data-wps="WPS 1">EWLa-1.5 (Oro)</td><td data-wps="WPS 2">EWLa-1.5 (Oro)</td><td data-wps="WPS 3">EWLa-1.5 (Oro)</td><td data-wps="WPS 4">EWLa-1.5 (Oro)</td></tr>
+    <tr><td class="param">Ø Tungsteno (mm)</td><td data-wps="WPS 1">2.4</td><td data-wps="WPS 2">2.4</td><td data-wps="WPS 3">2.4</td><td data-wps="WPS 4">2.4</td></tr>
+    <tr><td class="param">Amperaje (A)</td><td data-wps="WPS 1">Cualquiera &gt; 0</td><td data-wps="WPS 2">Cualquiera &gt; 0</td><td data-wps="WPS 3">Cualquiera &gt; 0</td><td data-wps="WPS 4">Cualquiera &gt; 0</td></tr>
+    <tr><td class="param">Voltaje (V)</td><td data-wps="WPS 1" class="dash">—</td><td data-wps="WPS 2" class="dash">—</td><td data-wps="WPS 3" class="dash">—</td><td data-wps="WPS 4" class="dash">—</td></tr>
+    <tr><td class="param">Vel. Hilo (m/min)</td><td data-wps="WPS 1" class="dash">—</td><td data-wps="WPS 2" class="dash">—</td><td data-wps="WPS 3" class="dash">—</td><td data-wps="WPS 4" class="dash">—</td></tr>
+    <tr><td class="param">Empuje/Arrastre</td><td data-wps="WPS 1">Cualquiera</td><td data-wps="WPS 2">Cualquiera</td><td data-wps="WPS 3">Cualquiera</td><td data-wps="WPS 4">Cualquiera</td></tr>
+
+    <tr class="section-row"><td colspan="5">CAPA 3: RELLENO (MAG / GMAW)</td></tr>
+    <tr><td class="param">Proceso (Común)</td><td data-wps="WPS 1">Semiautomática macizo</td><td data-wps="WPS 2">Semiautomática macizo</td><td data-wps="WPS 3">Semiautomática macizo</td><td data-wps="WPS 4">Semiautomática macizo</td></tr>
+    <tr><td class="param">Proceso (ISO)</td><td data-wps="WPS 1">135</td><td data-wps="WPS 2">135</td><td data-wps="WPS 3">135</td><td data-wps="WPS 4">135</td></tr>
+    <tr><td class="param">Proceso (AWS)</td><td data-wps="WPS 1">GMAW</td><td data-wps="WPS 2">GMAW</td><td data-wps="WPS 3">GMAW</td><td data-wps="WPS 4">GMAW</td></tr>
+    <tr><td class="param">Ø Consumible (mm)</td><td data-wps="WPS 1">1.0 / 1.2</td><td data-wps="WPS 2">1.0 / 1.2</td><td data-wps="WPS 3">1.0 / 1.2</td><td data-wps="WPS 4">1.0 / 1.2</td></tr>
+    <tr><td class="param">Consumible (ISO)</td><td data-wps="WPS 1">G3Si1</td><td data-wps="WPS 2">G3Si1</td><td data-wps="WPS 3">G3Si1</td><td data-wps="WPS 4">G3Si1</td></tr>
+    <tr><td class="param">Consumible (AWS)</td><td data-wps="WPS 1">ER70S-6</td><td data-wps="WPS 2">ER70S-6</td><td data-wps="WPS 3">ER70S-6</td><td data-wps="WPS 4">ER70S-6</td></tr>
+    <tr><td class="param">Gas (Tipo)</td><td data-wps="WPS 1">Ar + 18% CO2</td><td data-wps="WPS 2">Ar + 18% CO2</td><td data-wps="WPS 3">Ar + 18% CO2</td><td data-wps="WPS 4">Ar + 18% CO2</td></tr>
+    <tr><td class="param">Gas (ISO 14175)</td><td data-wps="WPS 1">M21-ArC-18</td><td data-wps="WPS 2">M21-ArC-18</td><td data-wps="WPS 3">M21-ArC-18</td><td data-wps="WPS 4">M21-ArC-18</td></tr>
+    <tr><td class="param">Gas (AWS A5.32)</td><td data-wps="WPS 1">SG-AC-18</td><td data-wps="WPS 2">SG-AC-18</td><td data-wps="WPS 3">SG-AC-18</td><td data-wps="WPS 4">SG-AC-18</td></tr>
+    <tr><td class="param">Caudal Gas (l/min)</td><td data-wps="WPS 1">8 – 14</td><td data-wps="WPS 2">8 – 14</td><td data-wps="WPS 3">8 – 14</td><td data-wps="WPS 4">8 – 14</td></tr>
+    <tr><td class="param">Tipo Tungsteno</td><td data-wps="WPS 1" class="dash">—</td><td data-wps="WPS 2" class="dash">—</td><td data-wps="WPS 3" class="dash">—</td><td data-wps="WPS 4" class="dash">—</td></tr>
+    <tr><td class="param">Amperaje (A)</td><td data-wps="WPS 1">Cualquiera &gt; 0</td><td data-wps="WPS 2">Cualquiera &gt; 0</td><td data-wps="WPS 3">Cualquiera &gt; 0</td><td data-wps="WPS 4">Cualquiera &gt; 0</td></tr>
+    <tr><td class="param">Voltaje (V)</td><td data-wps="WPS 1">Cualquiera &gt; 0</td><td data-wps="WPS 2">Cualquiera &gt; 0</td><td data-wps="WPS 3">Cualquiera &gt; 0</td><td data-wps="WPS 4">Cualquiera &gt; 0</td></tr>
+    <tr><td class="param">Vel. Hilo (m/min)</td><td data-wps="WPS 1">Cualquiera &gt; 0</td><td data-wps="WPS 2">Cualquiera &gt; 0</td><td data-wps="WPS 3">Cualquiera &gt; 0</td><td data-wps="WPS 4">Cualquiera &gt; 0</td></tr>
+    <tr><td class="param">Empuje/Arrastre</td><td data-wps="WPS 1">Empuje</td><td data-wps="WPS 2">Empuje</td><td data-wps="WPS 3">Empuje</td><td data-wps="WPS 4">Empuje</td></tr>
+
+    <tr class="section-row"><td colspan="5">CAPA 4: PEINADO (MAG / GMAW)</td></tr>
+    <tr><td class="param">Proceso (Común)</td><td data-wps="WPS 1">Semiautomática macizo</td><td data-wps="WPS 2">Semiautomática macizo</td><td data-wps="WPS 3">Semiautomática macizo</td><td data-wps="WPS 4">Semiautomática macizo</td></tr>
+    <tr><td class="param">Proceso (ISO)</td><td data-wps="WPS 1">135</td><td data-wps="WPS 2">135</td><td data-wps="WPS 3">135</td><td data-wps="WPS 4">135</td></tr>
+    <tr><td class="param">Proceso (AWS)</td><td data-wps="WPS 1">GMAW</td><td data-wps="WPS 2">GMAW</td><td data-wps="WPS 3">GMAW</td><td data-wps="WPS 4">GMAW</td></tr>
+    <tr><td class="param">Ø Consumible (mm)</td><td data-wps="WPS 1">1.0 / 1.2</td><td data-wps="WPS 2">1.0 / 1.2</td><td data-wps="WPS 3">1.0 / 1.2</td><td data-wps="WPS 4">1.0 / 1.2</td></tr>
+    <tr><td class="param">Consumible (ISO)</td><td data-wps="WPS 1">G3Si1</td><td data-wps="WPS 2">G3Si1</td><td data-wps="WPS 3">G3Si1</td><td data-wps="WPS 4">G3Si1</td></tr>
+    <tr><td class="param">Consumible (AWS)</td><td data-wps="WPS 1">ER70S-6</td><td data-wps="WPS 2">ER70S-6</td><td data-wps="WPS 3">ER70S-6</td><td data-wps="WPS 4">ER70S-6</td></tr>
+    <tr><td class="param">Gas (Tipo)</td><td data-wps="WPS 1">Ar + 18% CO2</td><td data-wps="WPS 2">Ar + 18% CO2</td><td data-wps="WPS 3">Ar + 18% CO2</td><td data-wps="WPS 4">Ar + 18% CO2</td></tr>
+    <tr><td class="param">Gas (ISO 14175)</td><td data-wps="WPS 1">M21-ArC-18</td><td data-wps="WPS 2">M21-ArC-18</td><td data-wps="WPS 3">M21-ArC-18</td><td data-wps="WPS 4">M21-ArC-18</td></tr>
+    <tr><td class="param">Gas (AWS A5.32)</td><td data-wps="WPS 1">SG-AC-18</td><td data-wps="WPS 2">SG-AC-18</td><td data-wps="WPS 3">SG-AC-18</td><td data-wps="WPS 4">SG-AC-18</td></tr>
+    <tr><td class="param">Caudal Gas (l/min)</td><td data-wps="WPS 1">8 – 14</td><td data-wps="WPS 2">8 – 14</td><td data-wps="WPS 3">8 – 14</td><td data-wps="WPS 4">8 – 14</td></tr>
+    <tr><td class="param">Tipo Tungsteno</td><td data-wps="WPS 1" class="dash">—</td><td data-wps="WPS 2" class="dash">—</td><td data-wps="WPS 3" class="dash">—</td><td data-wps="WPS 4" class="dash">—</td></tr>
+    <tr><td class="param">Amperaje (A)</td><td data-wps="WPS 1">Cualquiera &gt; 0</td><td data-wps="WPS 2">Cualquiera &gt; 0</td><td data-wps="WPS 3">Cualquiera &gt; 0</td><td data-wps="WPS 4">Cualquiera &gt; 0</td></tr>
+    <tr><td class="param">Voltaje (V)</td><td data-wps="WPS 1">Cualquiera &gt; 0</td><td data-wps="WPS 2">Cualquiera &gt; 0</td><td data-wps="WPS 3">Cualquiera &gt; 0</td><td data-wps="WPS 4">Cualquiera &gt; 0</td></tr>
+    <tr><td class="param">Vel. Hilo (m/min)</td><td data-wps="WPS 1">Cualquiera &gt; 0</td><td data-wps="WPS 2">Cualquiera &gt; 0</td><td data-wps="WPS 3">Cualquiera &gt; 0</td><td data-wps="WPS 4">Cualquiera &gt; 0</td></tr>
+    <tr><td class="param">Empuje/Arrastre</td><td data-wps="WPS 1">Empuje</td><td data-wps="WPS 2">Empuje</td><td data-wps="WPS 3">Empuje</td><td data-wps="WPS 4">Empuje</td></tr>
+
+    <tr class="section-row"><td colspan="5">DEFECTOLOGÍA</td></tr>
+    <tr>
+      <td class="param">Tipos válidos (ISO 6520-1)</td>
+      <td data-wps="WPS 1">100, 201, 2017, 501, 602</td>
+      <td data-wps="WPS 2">201, 2017, 602, 501</td>
+      <td data-wps="WPS 3">501, 201, 2017</td>
+      <td data-wps="WPS 4">201, 2017, 602</td>
+    </tr>
+    <tr>
+      <td class="param">Causas válidas</td>
+      <td data-wps="WPS 1">Contaminación · Gas · Limpieza deficiente · Protección de gas insuficiente · Parámetros inadecuados · Técnica incorrecta</td>
+      <td data-wps="WPS 2">Falta limpieza · Exceso voltaje · Distancia boquilla-pieza excesiva</td>
+      <td data-wps="WPS 3">Exceso amperaje · Falta gas · Intensidad demasiado alta · Protección de gas insuficiente</td>
+      <td data-wps="WPS 4">Falta gas · Mala técnica · Arco demasiado largo</td>
+    </tr>
+    <tr>
+      <td class="param">Acciones correctoras válidas</td>
+      <td data-wps="WPS 1">Limpieza · Caudal · Aumentar caudal de gas · Ajustar parámetros · Limpiar soldadura · Cambiar técnica de soldadura</td>
+      <td data-wps="WPS 2">Limpiar · Reducir voltaje · Mantener stick-out adecuado</td>
+      <td data-wps="WPS 3">Reducir amperaje · Abrir caudal · Bajar intensidad · Aumentar caudal de gas</td>
+      <td data-wps="WPS 4">Abrir gas · Corregir técnica · Acortar arco</td>
+    </tr>
+    <tr>
+      <td class="param">Puntuación Defectología</td>
+      <td colspan="4" style="text-align:center; font-style:italic;">
+        1 defecto correcto = 0,66 pts &nbsp;|&nbsp; 2 defectos correctos = 1,33 pts &nbsp;|&nbsp; 3 o más defectos correctos = 2,00 pts
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+
+<p style="margin-top:14px; font-size:7.5pt; color:#555; border-top:1px solid #ccc; padding-top:6px;">
+  <b>Criterio por bloque (0,25 pts c/u):</b>
+  <b>Proceso</b>: Común + ISO + AWS deben coincidir exactamente.
+  <b>Consumible</b>: Ø + ISO + AWS.
+  <b>Gas</b>: Tipo + ISO + AWS + Caudal (en rango).
+  <b>Tungsteno</b> (solo GTAW): Tipo + ISO + AWS + Ø.
+  <b>Parámetros eléctricos</b>: Amp/Vol/Vel.Hilo &gt; 0 (según proceso).
+  <b>Ejecución</b>: Balanceo + Vel.Avance cualquiera; Empuje/Arrastre = "Empuje" en GMAW/FCAW.
+  Total por capa: 6 × 0,25 = <b>1,5 pts</b>.
+</p>
+
+</body>
+</html>

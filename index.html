@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WPS Interactivo - Módulo SAP</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="container">
+    <header class="header">
+      <div class="logo-left">
+        <img src="CONSEJERIA EDUCACIÓN.png" alt="Consejería de Educación">
+      </div>
+      <div class="title-container">
+        <h1>WPS MÓDULO SAP</h1>
+        <p>Soldadura en Atmósfera Protegida - Tarde</p>
+      </div>
+      <div class="logo-right">
+        <img src="Logo IES.png" alt="Logo IES">
+      </div>
+    </header>
+
+    <form id="wpsForm" class="wps-form">
+      
+      <!-- Datos Generales -->
+      <section class="section">
+        <div class="section-title header-main">Datos Generales</div>
+        <div class="grid-4" style="grid-template-columns: 1fr 2fr 1fr 1fr; margin-top: 1rem;">
+          <div class="input-group">
+            <label for="wpsNumber">Nº de Documento</label>
+            <select id="wpsNumber" name="wpsNumber" required>
+              <option value="">-- Seleccionar --</option>
+              <option value="1">WPS 1</option>
+              <option value="2">WPS 2</option>
+              <option value="3">WPS 3</option>
+              <option value="4">WPS 4</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Nombre completo del alumno" required>
+          </div>
+          <div class="input-group">
+            <label for="fecha">Fecha</label>
+            <input type="date" id="fecha" name="fecha" required>
+          </div>
+          <div class="input-group">
+            <label for="curso">Curso escolar</label>
+            <select id="curso" name="curso" required>
+              <option value="">-- Seleccionar --</option>
+              <option value="25-26">25-26</option>
+              <option value="26-27">26-27</option>
+              <option value="27-28">27-28</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="grid-3">
+          <div class="input-group custom-multiselect-container">
+            <label for="practica">Práctica nº (Máx. 4)</label>
+            <!-- Select real oculto para lógica -->
+            <select id="practica" name="practica" multiple style="display: none;">
+              <!-- Se poblará con JS -->
+            </select>
+            <!-- UI Visible -->
+            <div class="custom-select-box" id="customSelectBox">
+              <div class="selected-tags" id="selectedTags">
+                <span class="placeholder-text">Selecciona TIG o MAG...</span>
+              </div>
+              <div class="dropdown-icon">▼</div>
+            </div>
+            <!-- Lista desplegable oculta de inicio -->
+            <div class="dropdown-list" id="dropdownList">
+              <!-- Se poblará con JS -->
+            </div>
+            <div class="feedback-msg" style="color:var(--text-muted); display:block; margin-top:-0.3rem;">Despliega para elegir prácticas.</div>
+          </div>
+          <div class="input-group">
+            <label for="materialBase">Material base</label>
+            <select id="materialBase" name="materialBase">
+              <option value="">-- Seleccionar acero --</option>
+              <option value="S235JR">S235JR (Estándar)</option>
+              <option value="S355J2">S355J2 (Estructural alta resistencia)</option>
+              <option value="P265GH">P265GH (Calderería)</option>
+              <option value="B500SD">B500SD (Hormigón - Soldable)</option>
+              <option value="X5CrNi18-10">X5CrNi18-10 (Inox 304)</option>
+              <option value="X2CrNiMo17-12-2">X2CrNiMo17-12-2 (Inox 316L)</option>
+              <option value="C45 / F-114">C45 / F-114 (Acero al carbono temple)</option>
+              <option value="S355J2W">S355J2W (Acero Corten)</option>
+              <option value="42CrMo4">42CrMo4 (Aleado alta resistencia)</option>
+              <option value="S690QL">S690QL (Alto límite elástico)</option>
+            </select>
+            <div class="feedback-msg"></div>
+          </div>
+          <div class="input-group">
+            <label style="white-space: nowrap;">Largo x Ancho x Espesor (mm)</label>
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+              <select id="dimLargo" name="dimLargo" title="Largo" style="flex: 1; min-width: 0;" autocomplete="off"></select>
+              <span style="color: var(--text-muted); font-weight: bold;">×</span>
+              <select id="dimAncho" name="dimAncho" title="Ancho" style="flex: 1; min-width: 0;" autocomplete="off"></select>
+              <span style="color: var(--text-muted); font-weight: bold;">×</span>
+              <select id="dimEspesor" name="dimEspesor" title="Espesor" style="flex: 1; min-width: 0;" autocomplete="off"></select>
+            </div>
+            <div class="feedback-msg"></div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1.3fr 1fr 1.2fr 1.2fr; gap: 1rem; padding: 0 1.5rem; margin-bottom: 1rem;">
+          <div class="input-group">
+            <label for="prepBordes">Preparación de bordes (ISO 9692-1)</label>
+            <select id="prepBordes" name="prepBordes">
+              <option value="">-- Seleccionar --</option>
+              <option value="Chaflán en V">Chaflán en V</option>
+              <option value="Chaflán en X o V Doble">Chaflán en X o V Doble</option>
+              <option value="Rectos">Rectos</option>
+              <option value="Chaflán en U">Chaflán en U</option>
+            </select>
+            <div class="feedback-msg"></div>
+          </div>
+          <div class="input-group">
+            <label for="tipoUnion">Tipo de unión (ISO 17659)</label>
+            <select id="tipoUnion" name="tipoUnion">
+              <option value="">-- Seleccionar --</option>
+              <option value="Tope">A tope</option>
+              <option value="Angulo">En ángulo (T)</option>
+              <option value="Solape">A solape</option>
+              <option value="Esquina">De esquina</option>
+            </select>
+            <div class="feedback-msg"></div>
+          </div>
+          <div class="input-group">
+            <label for="posicionAws">Posición (AWS A3.0)</label>
+            <select id="posicionAws" name="posicionAws">
+              <option value="">-- Seleccionar --</option>
+              <optgroup label="A Tope (Groove - G)">
+                <option value="1G">1G (Plana)</option>
+                <option value="2G">2G (Cornisa)</option>
+                <option value="3G">3G (Vertical)</option>
+                <option value="4G">4G (Bajo techo)</option>
+                <option value="5G">5G (Tubería horizontal)</option>
+                <option value="6G">6G (Tubería 45º)</option>
+              </optgroup>
+              <optgroup label="En Ángulo (Fillet - F)">
+                <option value="1F">1F (Plana)</option>
+                <option value="2F">2F (Horizontal)</option>
+                <option value="3F">3F (Vertical)</option>
+                <option value="4F">4F (Bajo techo)</option>
+                <option value="5F">5F (Tubería múltiple)</option>
+              </optgroup>
+            </select>
+            <div class="feedback-msg"></div>
+          </div>
+          <div class="input-group">
+            <label for="posicionUne">Posición (UNE-EN ISO 6947)</label>
+            <select id="posicionUne" name="posicionUne">
+              <option value="">-- Seleccionar --</option>
+              <option value="PA">PA (Plana)</option>
+              <option value="PB">PB (Horizontal - Ángulo)</option>
+              <option value="PC">PC (Cornisa - Tope)</option>
+              <option value="PD">PD (Bajo techo - Ángulo)</option>
+              <option value="PE">PE (Bajo techo - Tope)</option>
+              <option value="PF">PF (Vertical Ascendente)</option>
+              <option value="PG">PG (Vertical Descendente)</option>
+              <option value="PH">PH (Tubería Vertical Ascendente)</option>
+              <option value="PJ">PJ (Tubería Vertical Descendente)</option>
+              <option value="H-L045">H-L045 (Inclinada 45º Asc.)</option>
+              <option value="J-L045">J-L045 (Inclinada 45º Desc.)</option>
+            </select>
+            <div class="feedback-msg"></div>
+          </div>
+        </div>
+        <div class="battery-indicator" id="battery-generales">
+          <div class="battery-label">Puntos: <span class="battery-pts" id="battery-generales-pts">0 / 2</span></div>
+          <div class="battery-container">
+            <div class="battery-body"><div class="battery-fill" id="battery-generales-fill"></div></div>
+            <div class="battery-tip"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CAPA 1 RAÍZ -->
+      <section class="section" id="capaRaiz">
+        <div class="section-title">CAPA 1: RAÍZ</div>
+        
+        <div class="grid-3" style="margin-bottom: 1rem;">
+          <div class="input-group">
+            <label>Proceso (Nombre común)</label>
+            <select id="raizProcesoComun">
+              <option value="">-- Seleccionar --</option>
+              <option value="Electrodo">Electrodo</option>
+              <option value="TIG">TIG</option>
+              <option value="Semiautomática macizo">Semiautomática macizo</option>
+              <option value="Semiautomática tubular">Semiautomática tubular</option>
+            </select>
+          </div>
+          <div class="input-group" id="raizProcesoIsoContainer" style="display:none;">
+            <label>Proceso (UNE-EN ISO 4063)</label>
+            <select id="raizProcesoIso">
+              <option value="">-- Seleccionar --</option>
+              <option value="111">111</option>
+              <option value="141">141</option>
+              <option value="135">135</option>
+              <option value="114">114</option>
+              <option value="136">136</option>
+              <option value="137">137</option>
+              <option value="131">131</option>
+            </select>
+          </div>
+          <div class="input-group" id="raizProcesoAwsContainer" style="display:none;">
+            <label>Proceso (AWS A3.0)</label>
+            <select id="raizProcesoAws">
+              <option value="">-- Seleccionar --</option>
+              <option value="SMAW">SMAW</option>
+              <option value="GTAW">GTAW</option>
+              <option value="GMAW MIG">GMAW MIG</option>
+              <option value="GMAW MAG">GMAW MAG</option>
+              <option value="FCAW">FCAW</option>
+            </select>
+            <div class="feedback-msg"></div>
+          </div>
+        </div>
+        
+        <!-- Contenido bloqueado hasta validación de proceso -->
+        <div id="raizDetalles" style="display:none;">
+          <div class="section-divider filler-section-title">Hilo / Electrodo consumible</div>
+          <div class="grid-3">
+            <div class="input-group">
+              <label for="raizAportacionDiam">Ø Hilo / Electrodo (mm)</label>
+              <select id="raizAportacionDiam">
+                <option value="">-- Ø --</option>
+              </select>
+              <div class="feedback-msg"></div>
+            </div>
+            <div class="input-group">
+              <label for="raizAportacionIso">Designación (ISO 636)</label>
+              <select id="raizAportacionIso">
+                <option value="">-- Designación ISO --</option>
+              </select>
+              <div class="feedback-msg"></div>
+            </div>
+            <div class="input-group">
+              <label for="raizAportacionAws">Designación (AWS A5.18)</label>
+              <select id="raizAportacionAws">
+                <option value="">-- Seleccionar AWS --</option>
+              </select>
+              <div class="feedback-msg"></div>
+            </div>
+            <div class="input-group smaw-only" style="display:none;">
+              <label for="raizAportacionRevestimiento">Tipo de revestimiento</label>
+              <select id="raizAportacionRevestimiento">
+                <option value="">-- Seleccionar --</option>
+                <option value="Rutilo">Rutilo (R)</option>
+                <option value="Básico">Básico (B)</option>
+                <option value="Celulósico">Celulósico (C)</option>
+                <option value="Ácido">Ácido (A)</option>
+                <option value="Rutilo-Básico">Rutilo-Básico (RB)</option>
+                <option value="Rutilo-Celulósico">Rutilo-Celulósico (RC)</option>
+              </select>
+              <div class="feedback-msg"></div>
+            </div>
+          </div>
+
+          <div class="section-divider gas-section">Gas</div>
+          <div class="grid-4 gas-section">
+            <div class="input-group">
+              <label for="raizGasTipo">Tipo de Gas</label>
+              <select id="raizGasTipo">
+                <option value="">-- Seleccionar --</option>
+                <option value="Ar_100">Argón 100%</option>
+                <option value="CO2_100">CO2 100%</option>
+                <option value="ArCO2_8218">Ar + 18% CO2</option>
+                <option value="ArCO2_9208">Ar + 8% CO2</option>
+                <option value="He_Ar">Helio / Argón</option>
+              </select>
+              <div class="feedback-msg"></div>
+            </div>
+            <div class="input-group" id="raizGasIsoContainer" style="display:none;">
+              <label for="raizGasIso">ISO 14175</label>
+              <select id="raizGasIso">
+                <option value="">-- ISO --</option>
+              </select>
+              <div class="feedback-msg"></div>
+            </div>
+            <div class="input-group" id="raizGasAwsContainer" style="display:none;">
+              <label for="raizGasAws">ANSI/AWS A5.32</label>
+              <select id="raizGasAws">
+                <option value="">-- AWS --</option>
+              </select>
+              <div class="feedback-msg"></div>
+            </div>
+            <div class="input-group">
+              <label for="raizGasCaudal">Caudal (l/min)</label>
+              <select id="raizGasCaudal">
+                <option value="">-- l/min --</option>
+              </select>
+              <div class="feedback-msg"></div>
+            </div>
+          </div>
+
+          <!-- Campos Específicos GTAW (Tungsteno) -->
+          <div class="section-divider gtaw-only" style="display:none;">Tungsteno</div>
+          <div class="grid-4 gtaw-only" style="margin-top:1rem; display:none;">
+            <div class="input-group">
+              <label for="raizTungstenoDiam">Ø Tungsteno (mm)</label>
+              <select id="raizTungstenoDiam">
+                <option value="">-- mm --</option>
+                <option value="1.0">1.0</option>
+                <option value="1.6">1.6</option>
+                <option value="2.0">2.0</option>
+                <option value="2.4">2.4</option>
+                <option value="3.2">3.2</option>
+                <option value="4.0">4.0</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label for="raizTungstenoTipo">Tipo de Tungsteno</label>
+              <select id="raizTungstenoTipo">
+                <option value="">-- Tipo --</option>
+              </select>
+            </div>
+            <div class="input-group" id="raizTungstenoIsoContainer" style="display:none;">
+              <label for="raizTungstenoIso">ISO 6848 (Tipo y Color)</label>
+              <select id="raizTungstenoIso">
+                <option value="">-- ISO --</option>
+              </select>
+            </div>
+            <div class="input-group" id="raizTungstenoAwsContainer" style="display:none;">
+              <label for="raizTungstenoAws">AWS A5.12 (Tipo y Color)</label>
+              <select id="raizTungstenoAws">
+                <option value="">-- AWS --</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Parámetros Eléctricos Raíz -->
+          <div class="section-divider">Parámetros Eléctricos y Ejecución</div>
+          <div class="grid-3">
+            <div class="input-group">
+              <label for="raizBalanceo">Balanceo lateral</label>
+              <select id="raizBalanceo">
+                <option value="">-- Seleccionar --</option>
+                <option value="Sin balanceo">Sin balanceo (cordón recto)</option>
+                <option value="Zigzag">Zigzag</option>
+                <option value="Triangular">Triangular</option>
+                <option value="En C">En "C"</option>
+                <option value="En Circulos">En Círculos</option>
+              </select>
+            </div>
+            <div class="input-group">
+                <label for="raizVelocidadAvance">Vel. Avance (cm/min)</label>
+                <select id="raizVelocidadAvance">
+                  <option value="">-- cm/min --</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="raizAmperaje">Amperaje (A)</label>
+                <select id="raizAmperaje">
+                  <option value="">-- A --</option>
+                </select>
+                <div class="feedback-msg"></div>
+            </div>
+          </div>
+          <div class="grid-3" style="margin-top:1rem;">
+            <div class="input-group no-gtaw">
+                <label for="raizEmpujeArrastre">Empuje o arrastre</label>
+              <select id="raizEmpujeArrastre">
+                <option value="">-- Seleccionar --</option>
+                <option value="Empuje">Empuje</option>
+                <option value="Arrastre">Arrastre</option>
+                <option value="Neutro">Neutro</option>
+              </select>
+              <div class="feedback-msg"></div>
+            </div>
+            <div class="input-group mag-only">
+              <label for="raizVoltaje">Voltaje (V)</label>
+              <select id="raizVoltaje">
+                <option value="">-- V --</option>
+              </select>
+              <div class="feedback-msg"></div>
+            </div>
+            <div class="input-group mag-only">
+                <label for="raizVelocidadHilo">Vel. Hilo (m/min)</label>
+                <select id="raizVelocidadHilo">
+                  <option value="">-- m/min --</option>
+                </select>
+                <div class="feedback-msg"></div>
+            </div>
+          </div>
+        </div>
+        <div class="battery-indicator" id="battery-raiz">
+          <div class="battery-label">Puntos: <span class="battery-pts" id="battery-raiz-pts">0 / 1.5</span></div>
+          <div class="battery-container">
+            <div class="battery-body"><div class="battery-fill" id="battery-raiz-fill"></div></div>
+            <div class="battery-tip"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CAPA 2 REFUERZO -->
+      <section class="section" id="capaRefuerzo">
+        <div class="section-title">CAPA 2: REFUERZO</div>
+        
+        <div class="grid-3" style="margin-bottom: 1rem;">
+          <div class="input-group">
+            <label>Proceso (Nombre común)</label>
+            <select id="refuerzoProcesoComun">
+              <option value="">-- Seleccionar --</option>
+              <option value="Electrodo">Electrodo</option>
+              <option value="TIG">TIG</option>
+              <option value="Semiautomática macizo">Semiautomática macizo</option>
+              <option value="Semiautomática tubular">Semiautomática tubular</option>
+            </select>
+          </div>
+          <div class="input-group" id="refuerzoProcesoIsoContainer" style="display:none;">
+            <label>Proceso (UNE-EN ISO 4063)</label>
+            <select id="refuerzoProcesoIso">
+              <option value="">-- Seleccionar --</option>
+              <option value="111">111</option>
+              <option value="141">141</option>
+              <option value="135">135</option>
+              <option value="114">114</option>
+              <option value="136">136</option>
+              <option value="137">137</option>
+              <option value="131">131</option>
+            </select>
+          </div>
+          <div class="input-group" id="refuerzoProcesoAwsContainer" style="display:none;">
+            <label>Proceso (AWS A3.0)</label>
+            <select id="refuerzoProcesoAws">
+              <option value="">-- Seleccionar --</option>
+              <option value="SMAW">SMAW</option>
+              <option value="GTAW">GTAW</option>
+              <option value="GMAW MIG">GMAW MIG</option>
+              <option value="GMAW MAG">GMAW MAG</option>
+              <option value="FCAW">FCAW</option>
+            </select>
+            <div class="feedback-msg"></div>
+          </div>
+        </div>
+        
+        <div id="refuerzoDetalles" style="display:none;">
+            <div class="section-divider filler-section-title">Hilo / Electrodo consumible</div>
+            <div class="grid-3">
+              <div class="input-group">
+                <label for="refuerzoAportacionDiam">Ø Hilo / Electrodo (mm)</label>
+                <select id="refuerzoAportacionDiam">
+                  <option value="">-- Ø --</option>
+                </select>
+                <div class="feedback-msg"></div>
+              </div>
+
+              <div class="input-group">
+                <label for="refuerzoAportacionIso">Designación (ISO 636)</label>
+                <select id="refuerzoAportacionIso">
+                  <option value="">-- Designación ISO --</option>
+                </select>
+                <div class="feedback-msg"></div>
+              </div>
+              <div class="input-group">
+                <label for="refuerzoAportacionAws">Designación (AWS A5.18)</label>
+                <select id="refuerzoAportacionAws">
+                  <option value="">-- Seleccionar AWS --</option>
+                </select>
+                <div class="feedback-msg"></div>
+              </div>
+              <div class="input-group smaw-only" style="display:none;">
+                <label for="refuerzoAportacionRevestimiento">Tipo de revestimiento</label>
+                <select id="refuerzoAportacionRevestimiento">
+                  <option value="">-- Seleccionar --</option>
+                  <option value="Rutilo">Rutilo (R)</option>
+                  <option value="Básico">Básico (B)</option>
+                  <option value="Celulósico">Celulósico (C)</option>
+                  <option value="Ácido">Ácido (A)</option>
+                  <option value="Rutilo-Básico">Rutilo-Básico (RB)</option>
+                  <option value="Rutilo-Celulósico">Rutilo-Celulósico (RC)</option>
+                </select>
+                <div class="feedback-msg"></div>
+              </div>
+            </div>
+
+            <div class="section-divider gas-section">Gas</div>
+            <div class="grid-4 gas-section">
+              <div class="input-group">
+                <label for="refuerzoGasTipo">Tipo de Gas</label>
+                <select id="refuerzoGasTipo">
+                  <option value="">-- Seleccionar --</option>
+                  <option value="Ar_100">Argón 100%</option>
+                  <option value="CO2_100">CO2 100%</option>
+                  <option value="ArCO2_8218">Ar + 18% CO2</option>
+                  <option value="ArCO2_9208">Ar + 8% CO2</option>
+                  <option value="He_Ar">Helio / Argón</option>
+                </select>
+                <div class="feedback-msg"></div>
+              </div>
+              <div class="input-group" id="refuerzoGasIsoContainer" style="display:none;">
+                <label for="refuerzoGasIso">ISO 14175</label>
+                <select id="refuerzoGasIso">
+                  <option value="">-- ISO --</option>
+                </select>
+                <div class="feedback-msg"></div>
+              </div>
+              <div class="input-group" id="refuerzoGasAwsContainer" style="display:none;">
+                <label for="refuerzoGasAws">ANSI/AWS A5.32</label>
+                <select id="refuerzoGasAws">
+                  <option value="">-- AWS --</option>
+                </select>
+                <div class="feedback-msg"></div>
+              </div>
+              <div class="input-group">
+                <label for="refuerzoGasCaudal">Caudal (l/min)</label>
+                <select id="refuerzoGasCaudal">
+                  <option value="">-- l/min --</option>
+                </select>
+                <div class="feedback-msg"></div>
+              </div>
+            </div>
+
+            <!-- Campos Específicos GTAW (Tungsteno) -->
+            <div class="section-divider gtaw-only" style="display:none;">Tungsteno</div>
+            <div class="grid-4 gtaw-only" style="margin-top:1rem; display:none;">
+            <div class="input-group">
+              <label for="refuerzoTungstenoDiam">Ø Tungsteno (mm)</label>
+              <select id="refuerzoTungstenoDiam">
+                <option value="">-- mm --</option>
+                <option value="1.0">1.0</option>
+                <option value="1.6">1.6</option>
+                <option value="2.0">2.0</option>
+                <option value="2.4">2.4</option>
+                <option value="3.2">3.2</option>
+                <option value="4.0">4.0</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label for="refuerzoTungstenoTipo">Tipo de Tungsteno</label>
+              <select id="refuerzoTungstenoTipo">
+                <option value="">-- Tipo --</option>
+              </select>
+            </div>
+            <div class="input-group" id="refuerzoTungstenoIsoContainer" style="display:none;">
+              <label for="refuerzoTungstenoIso">ISO 6848 (Tipo y Color)</label>
+              <select id="refuerzoTungstenoIso">
+                <option value="">-- ISO --</option>
+              </select>
+            </div>
+            <div class="input-group" id="refuerzoTungstenoAwsContainer" style="display:none;">
+              <label for="refuerzoTungstenoAws">AWS A5.12 (Tipo y Color)</label>
+              <select id="refuerzoTungstenoAws">
+                <option value="">-- AWS --</option>
+              </select>
+            </div>
+          </div>
+
+            <div class="section-divider">Parámetros Eléctricos y Ejecución</div>
+          <div class="grid-3">
+            <div class="input-group">
+              <label for="refuerzoBalanceo">Balanceo lateral</label>
+              <select id="refuerzoBalanceo">
+                <option value="">-- Seleccionar --</option>
+                <option value="Sin balanceo">Sin balanceo (cordón recto)</option>
+                <option value="Zigzag">Zigzag</option>
+                <option value="Triangular">Triangular</option>
+                <option value="En C">En "C"</option>
+                <option value="En Circulos">En Círculos</option>
+              </select>
+            </div>
+            <div class="input-group">
+                <label for="refuerzoVelocidadAvance">Vel. Avance (cm/min)</label>
+                <select id="refuerzoVelocidadAvance">
+                  <option value="">-- cm/min --</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="refuerzoAmperaje">Amperaje (A)</label>
+                <select id="refuerzoAmperaje">
+                  <option value="">-- A --</option>
+                </select>
+                <div class="feedback-msg"></div>
+            </div>
+          </div>
+          <div class="grid-3" style="margin-top:1rem;">
+            <div class="input-group no-gtaw">
+                <label for="refuerzoEmpujeArrastre">Empuje o arrastre</label>
+              <select id="refuerzoEmpujeArrastre">
+                <option value="">-- Seleccionar --</option>
+                <option value="Empuje">Empuje</option>
+                <option value="Arrastre">Arrastre</option>
+                <option value="Neutro">Neutro</option>
+              </select>
+              <div class="feedback-msg"></div>
+            </div>
+            <div class="input-group mag-only">
+              <label for="refuerzoVoltaje">Voltaje (V)</label>
+              <select id="refuerzoVoltaje">
+                <option value="">-- V --</option>
+              </select>
+              <div class="feedback-msg"></div>
+            </div>
+            <div class="input-group mag-only">
+                <label for="refuerzoVelocidadHilo">Vel. Hilo (m/min)</label>
+                <select id="refuerzoVelocidadHilo">
+                  <option value="">-- m/min --</option>
+                </select>
+                <div class="feedback-msg"></div>
+            </div>
+          </div>
+        </div>
+        <div class="battery-indicator" id="battery-refuerzo">
+          <div class="battery-label">Puntos: <span class="battery-pts" id="battery-refuerzo-pts">0 / 1.5</span></div>
+          <div class="battery-container">
+            <div class="battery-body"><div class="battery-fill" id="battery-refuerzo-fill"></div></div>
+            <div class="battery-tip"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Capa 3: Relleno -->
+      <section class="section" id="capaRelleno">
+        <div class="section-title">Capa 3: Relleno</div>
+        <div class="grid-3" style="margin-bottom: 1rem;">
+          <div class="input-group">
+            <label>Proceso (Nombre común)</label>
+            <select id="rellenoProcesoComun">
+              <option value="">-- Seleccionar --</option>
+              <option value="Electrodo">Electrodo</option>
+              <option value="TIG">TIG</option>
+              <option value="Semiautomática macizo">Semiautomática macizo</option>
+              <option value="Semiautomática tubular">Semiautomática tubular</option>
+            </select>
+          </div>
+          <div class="input-group" id="rellenoProcesoIsoContainer" style="display:none;">
+            <label>Proceso (UNE-EN ISO 4063)</label>
+            <select id="rellenoProcesoIso">
+              <option value="">-- Seleccionar --</option>
+              <option value="111">111</option>
+              <option value="141">141</option>
+              <option value="135">135</option>
+              <option value="114">114</option>
+              <option value="136">136</option>
+              <option value="137">137</option>
+              <option value="131">131</option>
+            </select>
+          </div>
+          <div class="input-group" id="rellenoProcesoAwsContainer" style="display:none;">
+            <label>Proceso (AWS A3.0)</label>
+            <select id="rellenoProcesoAws">
+              <option value="">-- Seleccionar --</option>
+              <option value="SMAW">SMAW</option>
+              <option value="GTAW">GTAW</option>
+              <option value="GMAW MIG">GMAW MIG</option>
+              <option value="GMAW MAG">GMAW MAG</option>
+              <option value="FCAW">FCAW</option>
+            </select>
+            <div class="feedback-msg"></div>
+          </div>
+        </div>
+        
+        <div id="rellenoDetalles" style="display:none;">
+            <div class="section-divider filler-section-title">Hilo / Electrodo consumible</div>
+            <div class="grid-3">
+              <div class="input-group">
+                <label for="rellenoAportacionDiam">Ø Hilo / Electrodo (mm)</label>
+                <select id="rellenoAportacionDiam">
+                  <option value="">-- Ø --</option>
+                </select>
+                <div class="feedback-msg"></div>
+              </div>
+
+              <div class="input-group">
+                <label for="rellenoAportacionIso">Designación (ISO 14341)</label>
+                <select id="rellenoAportacionIso">
+                  <option value="">-- Designación ISO --</option>
+                </select>
+                <div class="feedback-msg"></div>
+              </div>
+              <div class="input-group">
+                <label for="rellenoAportacionAws">Designación (AWS A5.18)</label>
+                <select id="rellenoAportacionAws">
+                  <option value="">-- Seleccionar AWS --</option>
+                </select>
+                <div class="feedback-msg"></div>
+              </div>
+              <div class="input-group smaw-only" style="display:none;">
+                <label for="rellenoAportacionRevestimiento">Tipo de revestimiento</label>
+                <select id="rellenoAportacionRevestimiento">
+                  <option value="">-- Seleccionar --</option>
+                  <option value="Rutilo">Rutilo (R)</option>
+                  <option value="Básico">Básico (B)</option>
+                  <option value="Celulósico">Celulósico (C)</option>
+                  <option value="Ácido">Ácido (A)</option>
+                  <option value="Rutilo-Básico">Rutilo-Básico (RB)</option>
+                  <option value="Rutilo-Celulósico">Rutilo-Celulósico (RC)</option>
+                </select>
+                <div class="feedback-msg"></div>
+              </div>
+            </div>
+
+            <div class="section-divider gas-section">Gas</div>
+            <div class="grid-4 gas-section">
+              <div class="input-group">
+                <label for="rellenoGasTipo">Tipo de Gas</label>
+                <select id="rellenoGasTipo">
+                  <option value="">-- Seleccionar --</option>
+                  <option value="Ar_100">Argón 100%</option>
+                  <option value="CO2_100">CO2 100%</option>
+                  <option value="ArCO2_8218">Ar + 18% CO2</option>
+                  <option value="ArCO2_9208">Ar + 8% CO2</option>
+                  <option value="He_Ar">Helio / Argón</option>
+                </select>
+                <div class="feedback-msg"></div>
+              </div>
+              <div class="input-group" id="rellenoGasIsoContainer" style="display:none;">
+                <label for="rellenoGasIso">ISO 14175</label>
+                <select id="rellenoGasIso">
+                  <option value="">-- ISO --</option>
+                </select>
+                <div class="feedback-msg"></div>
+              </div>
+              <div class="input-group" id="rellenoGasAwsContainer" style="display:none;">
+                <label for="rellenoGasAws">ANSI/AWS A5.32</label>
+                <select id="rellenoGasAws">
+                  <option value="">-- AWS --</option>
+                </select>
+                <div class="feedback-msg"></div>
+              </div>
+              <div class="input-group">
+                <label for="rellenoGasCaudal">Caudal (l/min)</label>
+                <select id="rellenoGasCaudal">
+                  <option value="">-- l/min --</option>
+                </select>
+                <div class="feedback-msg"></div>
+              </div>
+            </div>
+
+            <!-- Campos Específicos GTAW (Tungsteno) -->
+            <div class="section-divider gtaw-only" style="display:none;">Tungsteno</div>
+            <div class="grid-4 gtaw-only" style="margin-top:1rem; display:none;">
+            <div class="input-group gtaw-only" style="display:none;">
+              <label for="rellenoTungstenoDiam">Ø Tungsteno (mm)</label>
+              <select id="rellenoTungstenoDiam">
+                <option value="">-- mm --</option>
+                <option value="1.0">1.0</option>
+                <option value="1.6">1.6</option>
+                <option value="2.0">2.0</option>
+                <option value="2.4">2.4</option>
+                <option value="3.2">3.2</option>
+                <option value="4.0">4.0</option>
+              </select>
+            </div>
+            <div class="input-group gtaw-only" style="display:none;">
+              <label for="rellenoTungstenoTipo">Tipo de Tungsteno</label>
+              <select id="rellenoTungstenoTipo">
+                <option value="">-- Tipo --</option>
+              </select>
+            </div>
+            <div class="input-group" id="rellenoTungstenoIsoContainer" style="display:none;">
+              <label for="rellenoTungstenoIso">ISO 6848 (Tipo y Color)</label>
+              <select id="rellenoTungstenoIso">
+                <option value="">-- ISO --</option>
+              </select>
+            </div>
+            <div class="input-group" id="rellenoTungstenoAwsContainer" style="display:none;">
+              <label for="rellenoTungstenoAws">AWS A5.12 (Tipo y Color)</label>
+              <select id="rellenoTungstenoAws">
+                <option value="">-- AWS --</option>
+              </select>
+            </div>
+          </div>
+
+            <div class="section-divider">Parámetros Eléctricos y Ejecución</div>
+          <div class="grid-3">
+            <div class="input-group">
+              <label for="rellenoBalanceo">Balanceo lateral</label>
+              <select id="rellenoBalanceo">
+                <option value="">-- Seleccionar --</option>
+                <option value="Sin balanceo">Sin balanceo</option>
+                <option value="Zigzag">Zigzag</option>
+                <option value="Triangular">Triangular</option>
+                <option value="Circular">Circular</option>
+                <option value="En C">En "C"</option>
+                <option value="En Circulos">En Círculos</option>
+              </select>
+            </div>
+            <div class="input-group">
+                <label for="rellenoVelocidadAvance">Vel. Avance (cm/min)</label>
+                <select id="rellenoVelocidadAvance">
+                  <option value="">-- cm/min --</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="rellenoAmperaje">Amperaje (A)</label>
+                <select id="rellenoAmperaje">
+                  <option value="">-- A --</option>
+                </select>
+                <div class="feedback-msg"></div>
+            </div>
+          </div>
+          <div class="grid-3" style="margin-top:1rem;">
+            <div class="input-group no-gtaw">
+                <label for="rellenoEmpujeArrastre">Empuje/Arrastre</label>
+              <select id="rellenoEmpujeArrastre">
+                <option value="">-- Seleccionar --</option>
+                <option value="Empuje">Empuje</option>
+                <option value="Arrastre">Arrastre</option>
+                <option value="Neutro">Neutro</option>
+              </select>
+              <div class="feedback-msg"></div>
+            </div>
+            <div class="input-group mag-only">
+              <label for="rellenoVoltaje">Voltaje (V)</label>
+              <select id="rellenoVoltaje">
+                <option value="">-- V --</option>
+              </select>
+              <div class="feedback-msg"></div>
+            </div>
+            <div class="input-group mag-only">
+                <label for="rellenoVelocidadHilo">Vel. Hilo (m/min)</label>
+                <select id="rellenoVelocidadHilo">
+                  <option value="">-- m/min --</option>
+                </select>
+                <div class="feedback-msg"></div>
+            </div>
+          </div>
+        </div>
+        <div class="battery-indicator" id="battery-relleno">
+          <div class="battery-label">Puntos: <span class="battery-pts" id="battery-relleno-pts">0 / 1.5</span></div>
+          <div class="battery-container">
+            <div class="battery-body"><div class="battery-fill" id="battery-relleno-fill"></div></div>
+            <div class="battery-tip"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Capa 4: Peinado -->
+      <section class="section" id="capaPeinado">
+        <div class="section-title">Capa 4: Peinado</div>
+        <div class="grid-3" style="margin-bottom: 1rem;">
+          <div class="input-group">
+            <label>Proceso (Nombre común)</label>
+            <select id="peinadoProcesoComun">
+              <option value="">-- Seleccionar --</option>
+              <option value="Electrodo">Electrodo</option>
+              <option value="TIG">TIG</option>
+              <option value="Semiautomática macizo">Semiautomática macizo</option>
+              <option value="Semiautomática tubular">Semiautomática tubular</option>
+            </select>
+          </div>
+          <div class="input-group" id="peinadoProcesoIsoContainer" style="display:none;">
+            <label>Proceso (UNE-EN ISO 4063)</label>
+            <select id="peinadoProcesoIso">
+              <option value="">-- Seleccionar --</option>
+              <option value="111">111</option>
+              <option value="141">141</option>
+              <option value="135">135</option>
+              <option value="114">114</option>
+              <option value="136">136</option>
+              <option value="137">137</option>
+              <option value="131">131</option>
+            </select>
+          </div>
+          <div class="input-group" id="peinadoProcesoAwsContainer" style="display:none;">
+            <label>Proceso (AWS A3.0)</label>
+            <select id="peinadoProcesoAws">
+              <option value="">-- Seleccionar --</option>
+              <option value="SMAW">SMAW</option>
+              <option value="GTAW">GTAW</option>
+              <option value="GMAW MIG">GMAW MIG</option>
+              <option value="GMAW MAG">GMAW MAG</option>
+              <option value="FCAW">FCAW</option>
+            </select>
+            <div class="feedback-msg"></div>
+          </div>
+        </div>
+        
+        <div id="peinadoDetalles" style="display:none;">
+            <div class="section-divider filler-section-title">Hilo / Electrodo consumible</div>
+            <div class="grid-3">
+              <div class="input-group">
+                <label for="peinadoAportacionDiam">Ø Hilo / Electrodo (mm)</label>
+                <select id="peinadoAportacionDiam">
+                  <option value="">-- Ø --</option>
+                </select>
+                <div class="feedback-msg"></div>
+              </div>
+
+              <div class="input-group">
+                <label for="peinadoAportacionIso">Designación (ISO 14341)</label>
+                <select id="peinadoAportacionIso">
+                  <option value="">-- Designación ISO --</option>
+                </select>
+                <div class="feedback-msg"></div>
+              </div>
+              <div class="input-group">
+                <label for="peinadoAportacionAws">Designación (AWS A5.18)</label>
+                <select id="peinadoAportacionAws">
+                  <option value="">-- Seleccionar AWS --</option>
+                </select>
+                <div class="feedback-msg"></div>
+              </div>
+              <div class="input-group smaw-only" style="display:none;">
+                <label for="peinadoAportacionRevestimiento">Tipo de revestimiento</label>
+                <select id="peinadoAportacionRevestimiento">
+                  <option value="">-- Seleccionar --</option>
+                  <option value="Rutilo">Rutilo (R)</option>
+                  <option value="Básico">Básico (B)</option>
+                  <option value="Celulósico">Celulósico (C)</option>
+                  <option value="Ácido">Ácido (A)</option>
+                  <option value="Rutilo-Básico">Rutilo-Básico (RB)</option>
+                  <option value="Rutilo-Celulósico">Rutilo-Celulósico (RC)</option>
+                </select>
+                <div class="feedback-msg"></div>
+              </div>
+            </div>
+
+            <div class="section-divider gas-section">Gas</div>
+            <div class="grid-4 gas-section">
+              <div class="input-group">
+                <label for="peinadoGasTipo">Tipo de Gas</label>
+                <select id="peinadoGasTipo">
+                  <option value="">-- Seleccionar --</option>
+                  <option value="Ar_100">Argón 100%</option>
+                  <option value="CO2_100">CO2 100%</option>
+                  <option value="ArCO2_8218">Ar + 18% CO2</option>
+                  <option value="ArCO2_9208">Ar + 8% CO2</option>
+                  <option value="He_Ar">Helio / Argón</option>
+                </select>
+                <div class="feedback-msg"></div>
+              </div>
+              <div class="input-group" id="peinadoGasIsoContainer" style="display:none;">
+                <label for="peinadoGasIso">ISO 14175</label>
+                <select id="peinadoGasIso">
+                  <option value="">-- ISO --</option>
+                </select>
+                <div class="feedback-msg"></div>
+              </div>
+              <div class="input-group" id="peinadoGasAwsContainer" style="display:none;">
+                <label for="peinadoGasAws">ANSI/AWS A5.32</label>
+                <select id="peinadoGasAws">
+                  <option value="">-- AWS --</option>
+                </select>
+                <div class="feedback-msg"></div>
+              </div>
+              <div class="input-group">
+                <label for="peinadoGasCaudal">Caudal (l/min)</label>
+                <select id="peinadoGasCaudal">
+                  <option value="">-- l/min --</option>
+                </select>
+                <div class="feedback-msg"></div>
+              </div>
+            </div>
+
+            <!-- Campos Específicos GTAW (Tungsteno) -->
+            <div class="section-divider gtaw-only" style="display:none;">Tungsteno</div>
+            <div class="grid-4 gtaw-only" style="margin-top:1rem; display:none;">
+            <div class="input-group gtaw-only" style="display:none;">
+              <label for="peinadoTungstenoDiam">Ø Tungsteno (mm)</label>
+              <select id="peinadoTungstenoDiam">
+                <option value="">-- mm --</option>
+                <option value="1.0">1.0</option>
+                <option value="1.6">1.6</option>
+                <option value="2.0">2.0</option>
+                <option value="2.4">2.4</option>
+                <option value="3.2">3.2</option>
+                <option value="4.0">4.0</option>
+              </select>
+            </div>
+            <div class="input-group gtaw-only" style="display:none;">
+              <label for="peinadoTungstenoTipo">Tipo de Tungsteno</label>
+              <select id="peinadoTungstenoTipo">
+                <option value="">-- Tipo --</option>
+              </select>
+            </div>
+            <div class="input-group" id="peinadoTungstenoIsoContainer" style="display:none;">
+              <label for="peinadoTungstenoIso">ISO 6848 (Tipo y Color)</label>
+              <select id="peinadoTungstenoIso">
+                <option value="">-- ISO --</option>
+              </select>
+            </div>
+            <div class="input-group" id="peinadoTungstenoAwsContainer" style="display:none;">
+              <label for="peinadoTungstenoAws">AWS A5.12 (Tipo y Color)</label>
+              <select id="peinadoTungstenoAws">
+                <option value="">-- AWS --</option>
+              </select>
+            </div>
+          </div>
+
+            <div class="section-divider">Parámetros Eléctricos y Ejecución</div>
+          <div class="grid-3">
+            <div class="input-group">
+              <label for="peinadoBalanceo">Balanceo lateral</label>
+              <select id="peinadoBalanceo">
+                <option value="">-- Seleccionar --</option>
+                <option value="Sin balanceo">Sin balanceo</option>
+                <option value="Zigzag">Zigzag</option>
+                <option value="Triangular">Triangular</option>
+                <option value="Circular">Circular</option>
+                <option value="En C">En "C"</option>
+                <option value="En Circulos">En Círculos</option>
+              </select>
+            </div>
+            <div class="input-group">
+                <label for="peinadoVelocidadAvance">Vel. Avance (cm/min)</label>
+                <select id="peinadoVelocidadAvance">
+                  <option value="">-- cm/min --</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="peinadoAmperaje">Amperaje (A)</label>
+                <select id="peinadoAmperaje">
+                  <option value="">-- A --</option>
+                </select>
+                <div class="feedback-msg"></div>
+            </div>
+          </div>
+          <div class="grid-3" style="margin-top:1rem;">
+            <div class="input-group no-gtaw">
+                <label for="peinadoEmpujeArrastre">Empuje/Arrastre</label>
+              <select id="peinadoEmpujeArrastre">
+                <option value="">-- Seleccionar --</option>
+                <option value="Empuje">Empuje</option>
+                <option value="Arrastre">Arrastre</option>
+                <option value="Neutro">Neutro</option>
+              </select>
+              <div class="feedback-msg"></div>
+            </div>
+            <div class="input-group mag-only">
+              <label for="peinadoVoltaje">Voltaje (V)</label>
+              <select id="peinadoVoltaje">
+                <option value="">-- V --</option>
+              </select>
+              <div class="feedback-msg"></div>
+            </div>
+            <div class="input-group mag-only">
+                <label for="peinadoVelocidadHilo">Vel. Hilo (m/min)</label>
+                <select id="peinadoVelocidadHilo">
+                  <option value="">-- m/min --</option>
+                </select>
+                <div class="feedback-msg"></div>
+            </div>
+          </div>
+        </div>
+        <div class="battery-indicator" id="battery-peinado">
+          <div class="battery-label">Puntos: <span class="battery-pts" id="battery-peinado-pts">0 / 1.5</span></div>
+          <div class="battery-container">
+            <div class="battery-body"><div class="battery-fill" id="battery-peinado-fill"></div></div>
+            <div class="battery-tip"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sección de Defectología -->
+      <section class="wps-section" id="sectionDefectologia">
+        <div class="section-header">
+          <h3 class="section-title header-defect">Análisis de Defectología</h3>
+        </div>
+        
+        <div class="grid-2">
+          <div class="input-group">
+            <label for="defectoCapa">Capa donde aparece el defecto</label>
+            <select id="defectoCapa">
+              <option value="">-- Seleccionar Capa --</option>
+              <option value="raiz">Raíz</option>
+              <option value="refuerzo">Refuerzo</option>
+              <option value="relleno">Relleno</option>
+              <option value="peinado">Peinado</option>
+              <option value="ninguna">Ninguna / Sin defectos</option>
+            </select>
+            <div class="feedback-msg"></div>
+          </div>
+          
+          <div class="input-group">
+            <label for="defectoTipo">Tipo de Defecto (ISO 6520-1 · ISO 5817)</label>
+            <select id="defectoTipo">
+              <option value="">-- Seleccionar Defecto --</option>
+              <!-- Se poblará vía JS -->
+            </select>
+            <div class="feedback-msg"></div>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top:1.5rem;">
+          <div class="input-group">
+            <label for="defectoCausa">Causa probable</label>
+            <select id="defectoCausa">
+              <option value="">-- Seleccionar Causa --</option>
+            </select>
+            <div class="feedback-msg"></div>
+          </div>
+          <div class="input-group">
+            <label for="defectoAccion">Acción correctiva</label>
+            <select id="defectoAccion">
+              <option value="">-- Seleccionar Acción --</option>
+            </select>
+            <div class="feedback-msg"></div>
+          </div>
+        </div>
+
+        <div class="btn-container" style="margin-top: 1rem; justify-content: flex-start;">
+          <button type="button" class="btn-secondary" id="btnAddDefecto" style="padding: 0.6rem 1.2rem; font-size: 0.9rem;">
+            ➕ Guardar Análisis de Defecto
+          </button>
+        </div>
+
+        <!-- Lista de defectos reportados -->
+        <div id="defectoListContainer" style="margin-top: 1.5rem; display: none;">
+          <h4 style="margin-bottom: 0.5rem; color: var(--primary-color); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05rem;">
+            Defectos Reportados
+          </h4>
+          <div id="defectoList" style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <!-- Los defectos se insertarán aquí dinámicamente -->
+          </div>
+        </div>
+        <div class="battery-indicator" id="battery-defecto">
+          <div class="battery-label">Puntos: <span class="battery-pts" id="battery-defecto-pts">0 / 2</span></div>
+          <div class="battery-container">
+            <div class="battery-body"><div class="battery-fill" id="battery-defecto-fill"></div></div>
+            <div class="battery-tip"></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="btn-container">
+        <div id="livescoreBar" style="display:none; align-items:center; gap:1rem; background:#f0f4ff; border:1px solid #c5d2f0; border-radius:8px; padding:0.75rem 1.25rem; font-family:inherit;">
+          <span style="font-weight:600; color:#1e3a5f;">Puntuación parcial:</span>
+          <span id="livescoreValue" style="font-size:1.4rem; font-weight:700; color:#2563eb;">0.0</span>
+          <span style="color:#555;">/ 10</span>
+          <div id="livescoreBar2" style="flex:1; background:#dde6ff; border-radius:4px; height:10px; overflow:hidden;">
+            <div id="livescoreFill" style="height:100%; width:0%; background:#2563eb; border-radius:4px; transition:width 0.4s;"></div>
+          </div>
+        </div>
+        <button type="button" class="btn-submit" id="btnEvaluar">Finalizar y Evaluar WPS</button>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- Modal de Resultados -->
+  <div class="modal-overlay" id="resultadosModal">
+    <div class="modal-content">
+      <div class="score-circle" id="scoreCircle">--</div>
+      <h2 class="modal-title" id="modalTitle">¡Evaluación Completada!</h2>
+      <p class="modal-text" id="modalSummary">Has obtenido una puntuación de X sobre Y. Revisa los campos marcados en rojo en el formulario para ver la retroalimentación.</p>
+      
+      <!-- NUEVO: Botón para enviar a Google Drive -->
+      <button class="btn-submit" id="btnEnviarDrive" style="margin-bottom: 0.5rem; background-color: #0f9d58;">Enviar a Google Drive</button>
+      <p id="enviarDriveStatus" style="font-size: 0.85rem; margin-top: 0.5rem; display: none;"></p>
+      
+      <button class="btn-close" id="btnCloseModal">Volver al Formulario</button>
+    </div>
+  </div>
+
+
+  <script src="script.js"></script>
+</body>
+</html>
