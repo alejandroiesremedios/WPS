@@ -1044,18 +1044,11 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      const payload = {
-        fecha: document.getElementById('fecha').value,
-        nombre: document.getElementById('nombre').value,
-        ejercicio: "WPS " + document.getElementById('wpsNumber').value + " (" + selectedPractices.join(', ') + ")",
-        nota: scoreCircle.textContent
-      };
-
       btnEnviarDrive.disabled = true;
-      btnEnviarDrive.textContent = 'Enviando...';
+      btnEnviarDrive.textContent = 'Preparando...';
       enviarDriveStatus.style.display = 'block';
       enviarDriveStatus.style.color = '#555';
-      enviarDriveStatus.textContent = 'Conectando con Google Drive...';
+      enviarDriveStatus.textContent = '⏳ Generando PDF...';
 
       // 1. CONGELAR VISUALMENTE EL FORMULARIO PARA QUE NO MODIFIQUEN NADA
       // Creamos un escudo impenetrable en CSS en el contenedor principal
@@ -1082,20 +1075,108 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       try {
-        // Usar POST con mode: \'no-cors\' es común en GAS gratuito,
-        // pero hace que la respuesta sea opaca (response.ok siempre es false)
+        const nombreAlumno = (document.getElementById('nombre').value || 'alumno').trim().replace(/\s+/g, '_');
+        const wpsNum = document.getElementById('wpsNumber').value || 'X';
+        const pdfFilename = `WPS${wpsNum}_${nombreAlumno}.pdf`;
+
+        // 2. GENERAR PDF COMO BLOB (para descarga local y para enviar a Drive)
+        let pdfBlob = null;
+        let pdfBase64 = null;
+
+        if (typeof html2pdf !== 'undefined') {
+          const pdfWrapper = document.createElement('div');
+          pdfWrapper.style.cssText = 'position:absolute;top:-99999px;left:0;width:800px;background:#fff;padding:10px;box-sizing:border-box;';
+
+          const containerClone = document.querySelector('.container').cloneNode(true);
+
+          // cloneNode no copia el valor actual de <input> (solo el atributo HTML inicial)
+          // Sincronizamos manualmente los inputs por orden de aparición
+          const origInputs = document.querySelectorAll('.container input, .container select, .container textarea');
+          const cloneInputs = containerClone.querySelectorAll('input, select, textarea');
+          origInputs.forEach((orig, i) => {
+            if (!cloneInputs[i]) return;
+            if (orig.type === 'checkbox' || orig.type === 'radio') {
+              cloneInputs[i].checked = orig.checked;
+            } else {
+              cloneInputs[i].value = orig.value;
+            }
+          });
+
+          // El formulario tiene opacity:0.7 por el congelado — resetear en el clon
+          const cloneForm = containerClone.querySelector('.wps-form');
+          if (cloneForm) {
+            cloneForm.style.opacity = '1';
+            cloneForm.style.pointerEvents = 'auto';
+          }
+
+          const panelClone = document.getElementById('evaluationPanel').cloneNode(true);
+          const btnClone = panelClone.querySelector('#btnEnviarDrive');
+          if (btnClone) btnClone.style.display = 'none';
+          const statusClone = panelClone.querySelector('#enviarDriveStatus');
+          if (statusClone) statusClone.style.display = 'none';
+
+          pdfWrapper.appendChild(containerClone);
+          pdfWrapper.appendChild(panelClone);
+          document.body.appendChild(pdfWrapper);
+
+          try {
+            pdfBlob = await html2pdf().set({
+              margin: 8,
+              filename: pdfFilename,
+              image: { type: 'jpeg', quality: 0.88 },
+              html2canvas: { scale: 1.3, useCORS: true, logging: false },
+              jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            }).from(pdfWrapper).outputPdf('blob');
+
+            pdfBase64 = await new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onloadend = () => resolve(reader.result.split(',')[1]);
+              reader.onerror = reject;
+              reader.readAsDataURL(pdfBlob);
+            });
+          } catch (pdfErr) {
+            console.warn('Error generando PDF:', pdfErr);
+          } finally {
+            document.body.removeChild(pdfWrapper);
+          }
+        }
+
+        // 3. ENVIAR DATOS + PDF (base64) AL GOOGLE APPS SCRIPT
+        enviarDriveStatus.textContent = '⏳ Enviando a Google Drive...';
+        btnEnviarDrive.textContent = 'Enviando...';
+
         await fetch(GAS_URL, {
           method: 'POST',
           mode: 'no-cors',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(payload)
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fecha: document.getElementById('fecha').value,
+            nombre: document.getElementById('nombre').value,
+            ejercicio: "WPS " + wpsNum + " (" + selectedPractices.join(', ') + ")",
+            nota: scoreCircle.textContent,
+            pdfNombre: pdfFilename,
+            pdf: pdfBase64
+          })
         });
-        
+
         btnEnviarDrive.textContent = '¡Enviado!';
-        enviarDriveStatus.style.color = '#16a34a'; // Verde
-        enviarDriveStatus.textContent = '✅ Puntuación guardada correctamente.';
+        enviarDriveStatus.style.color = '#16a34a';
+
+        // 4. DESCARGA LOCAL DEL PDF PARA EL ALUMNO
+        if (pdfBlob) {
+          const url = URL.createObjectURL(pdfBlob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = pdfFilename;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+          enviarDriveStatus.textContent = '✅ Puntuación y PDF guardados en Drive. PDF descargado.';
+        } else {
+          enviarDriveStatus.textContent = '✅ Puntuación guardada en Drive correctamente.';
+        }
+
       } catch (error) {
         console.error("Error enviando a GAS:", error);
         btnEnviarDrive.disabled = false;
