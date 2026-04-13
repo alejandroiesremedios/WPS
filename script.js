@@ -1030,7 +1030,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // GENERADOR DE PDF (jsPDF - estilo documento oficial)
   // =============================================
   function generarPDFWPS(pdfFilename) {
-    const { jsPDF } = window.jspdf;
+    const jsPDF = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
+    if (!jsPDF) throw new Error('jsPDF no cargado');
     const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
 
     const PW = 210, PH = 297, M = 12, CW = PW - 2 * M;
@@ -1301,20 +1302,20 @@ document.addEventListener('DOMContentLoaded', () => {
         let pdfBlob = null;
         let pdfBase64 = null;
 
-        if (typeof window.jspdf !== 'undefined') {
-          try {
-            pdfBlob = generarPDFWPS(pdfFilename);
-            if (pdfBlob) {
-              pdfBase64 = await new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onloadend = () => resolve(reader.result.split(',')[1]);
-                reader.onerror = reject;
-                reader.readAsDataURL(pdfBlob);
-              });
-            }
-          } catch (pdfErr) {
-            console.warn('Error generando PDF:', pdfErr);
+        try {
+          pdfBlob = generarPDFWPS(pdfFilename);
+          if (pdfBlob) {
+            pdfBase64 = await new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onloadend = () => resolve(reader.result.split(',')[1]);
+              reader.onerror = reject;
+              reader.readAsDataURL(pdfBlob);
+            });
           }
+        } catch (pdfErr) {
+          console.warn('Error generando PDF:', pdfErr);
+          enviarDriveStatus.textContent = '⚠️ Error PDF: ' + pdfErr.message;
+          enviarDriveStatus.style.color = '#b45309';
         }
 
         // 3. ENVIAR DATOS + PDF (base64) AL GOOGLE APPS SCRIPT
