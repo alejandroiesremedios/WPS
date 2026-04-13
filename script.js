@@ -1262,7 +1262,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnEnviarDrive) {
     btnEnviarDrive.addEventListener('click', async () => {
       // ¡ATENCIÓN! Reemplazar esta URL por la proporcionada al desplegar tu Google Apps Script
-      const GAS_URL = "https://script.google.com/a/macros/iesremedios.es/s/AKfycbxkAcI4NpM1m1rH9YUhNUHUNmt5x9WhPN7q51WeAecqGG4-QkY6_isCqROfoWQjbo3E/exec"; 
+      const GAS_URL = "https://script.google.com/macros/s/AKfycbw9rRz-OeBLVQIEWwRKCrLerabdQ8HukgD5aNSW4xMrwzGcKq_-zzirqCk---0gobY4/exec"; 
       
       if (GAS_URL === "URL_DE_TU_SCRIPT_AQUI") {
         enviarDriveStatus.style.display = 'block';
