@@ -1027,6 +1027,224 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =============================================
+  // GENERADOR DE PDF (jsPDF - estilo documento oficial)
+  // =============================================
+  function generarPDFWPS(pdfFilename) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+
+    const PW = 210, PH = 297, M = 12, CW = PW - 2 * M;
+    let y = M;
+
+    const C = {
+      blueDark:   [30, 58, 138],
+      blueLight:  [219, 234, 254],
+      labelBg:    [235, 240, 255],
+      white:      [255, 255, 255],
+      grayBorder: [203, 213, 225],
+      textDark:   [15, 23, 42],
+      textMid:    [71, 85, 105],
+      greenBg:    [212, 237, 218],
+      greenText:  [21, 87, 36],
+      redBg:      [248, 215, 218],
+      redText:    [114, 28, 36],
+    };
+
+    function v(id) {
+      const el = document.getElementById(id);
+      return (el && el.value) ? el.value : '';
+    }
+
+    function checkPage(needed) {
+      if (y + needed > PH - M) { doc.addPage(); y = M; }
+    }
+
+    function drawSectionHeader(title) {
+      checkPage(12);
+      doc.setFillColor(...C.blueDark);
+      doc.rect(M, y, CW, 8, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'bold');
+      doc.text(title.toUpperCase(), M + 3, y + 5.5);
+      y += 8;
+    }
+
+    function drawRow(fields, rowH) {
+      rowH = rowH || 10;
+      checkPage(rowH);
+      const n = fields.length;
+      const colW = CW / n;
+      fields.forEach(function(field, i) {
+        const label = field[0], value = field[1];
+        const x = M + i * colW;
+        const labelH = 3.5;
+        doc.setFillColor(...C.labelBg);
+        doc.rect(x, y, colW, labelH, 'F');
+        doc.setTextColor(...C.textMid);
+        doc.setFontSize(6.5);
+        doc.setFont('helvetica', 'bold');
+        doc.text(String(label), x + 1.5, y + 2.6, { maxWidth: colW - 3 });
+        doc.setFillColor(...C.white);
+        doc.rect(x, y + labelH, colW, rowH - labelH, 'F');
+        doc.setTextColor(...C.textDark);
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'normal');
+        doc.text(String(value || '\u2014'), x + 1.5, y + labelH + (rowH - labelH) / 2 + 1.2, { maxWidth: colW - 3 });
+        doc.setDrawColor(...C.grayBorder);
+        doc.rect(x, y, colW, rowH, 'S');
+      });
+      y += rowH;
+    }
+
+    // CABECERA
+    doc.setFillColor(...C.blueDark);
+    doc.rect(M, y, CW, 18, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(16);
+    doc.setFont('helvetica', 'bold');
+    doc.text('WPS M\u00d3DULO SAP', PW / 2, y + 10, { align: 'center' });
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Soldadura en Atm\u00f3sfera Protegida', PW / 2, y + 15, { align: 'center' });
+    y += 18;
+
+    doc.setFillColor(...C.blueLight);
+    doc.rect(M, y, CW, 7, 'F');
+    doc.setTextColor(...C.blueDark);
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'bold');
+    doc.text('ESPECIFICACI\u00d3N DE PROCEDIMIENTO DE SOLDADURA', PW / 2, y + 4.8, { align: 'center' });
+    y += 7;
+    y += 4;
+
+    // DATOS GENERALES
+    drawSectionHeader('Datos Generales');
+    const dims = [v('dimLargo'), v('dimAncho'), v('dimEspesor')].filter(function(x){ return x; }).join(' \u00d7 ') || '\u2014';
+    const practicas = selectedPractices.length > 0 ? selectedPractices.join(', ') : '\u2014';
+    drawRow([
+      ['N\u00ba Documento', 'WPS ' + (v('wpsNumber') || '\u2014')],
+      ['Alumno/a', v('nombre') || '\u2014'],
+      ['Fecha', v('fecha') || '\u2014'],
+      ['Curso', v('curso') || '\u2014'],
+    ]);
+    drawRow([
+      ['Pr\u00e1cticas', practicas],
+      ['Material Base', v('materialBase') || '\u2014'],
+      ['Dimensiones L\u00d7A\u00d7E (mm)', dims],
+    ]);
+    drawRow([
+      ['Prep. de Bordes', v('prepBordes') || '\u2014'],
+      ['Tipo de Uni\u00f3n', v('tipoUnion') || '\u2014'],
+      ['Posici\u00f3n (AWS)', v('posicionAws') || '\u2014'],
+      ['Posici\u00f3n (UNE-EN)', v('posicionUne') || '\u2014'],
+    ]);
+    y += 4;
+
+    // CAPAS
+    var capas = [
+      { titulo: 'Capa 1: Ra\u00edz',     prefix: 'raiz' },
+      { titulo: 'Capa 2: Refuerzo', prefix: 'refuerzo' },
+      { titulo: 'Capa 3: Relleno',  prefix: 'relleno' },
+      { titulo: 'Capa 4: Peinado',  prefix: 'peinado' },
+    ];
+
+    capas.forEach(function(capa) {
+      var p = capa.prefix;
+      if (!v(p + 'ProcesoComun')) return;
+      drawSectionHeader(capa.titulo);
+      drawRow([
+        ['Proceso (Com\u00fan)', v(p + 'ProcesoComun')],
+        ['Proceso (ISO 4063)', v(p + 'ProcesoIso') || '\u2014'],
+        ['Proceso (AWS)', v(p + 'ProcesoAws') || '\u2014'],
+      ]);
+      drawRow([
+        ['\u00d8 Hilo/Electrodo (mm)', v(p + 'AportacionDiam') || '\u2014'],
+        ['Designaci\u00f3n ISO', v(p + 'AportacionIso') || '\u2014'],
+        ['Designaci\u00f3n AWS', v(p + 'AportacionAws') || '\u2014'],
+      ]);
+      drawRow([
+        ['Gas', v(p + 'GasTipo') || '\u2014'],
+        ['ISO 14175', v(p + 'GasIso') || '\u2014'],
+        ['Caudal (l/min)', v(p + 'GasCaudal') || '\u2014'],
+      ]);
+      var tDiam = v(p + 'TungstenoDiam');
+      if (tDiam) {
+        drawRow([
+          ['\u00d8 Tungsteno (mm)', tDiam],
+          ['Tipo Tungsteno', v(p + 'TungstenoTipo') || '\u2014'],
+          ['ISO 6848', v(p + 'TungstenoIso') || '\u2014'],
+        ]);
+      }
+      var voltaje = v(p + 'Voltaje');
+      var velHilo = v(p + 'VelocidadHilo');
+      drawRow([
+        ['Balanceo lateral', v(p + 'Balanceo') || '\u2014'],
+        ['Vel. Avance (cm/min)', v(p + 'VelocidadAvance') || '\u2014'],
+        ['Amperaje (A)', v(p + 'Amperaje') || '\u2014'],
+      ]);
+      if (voltaje || velHilo) {
+        drawRow([
+          ['Empuje/Arrastre', v(p + 'EmpujeArrastre') || '\u2014'],
+          ['Voltaje (V)', voltaje || '\u2014'],
+          ['Vel. Hilo (m/min)', velHilo || '\u2014'],
+        ]);
+      } else if (v(p + 'EmpujeArrastre')) {
+        drawRow([['Empuje/Arrastre', v(p + 'EmpujeArrastre')]]);
+      }
+      y += 4;
+    });
+
+    // DEFECTOLOGÍA
+    var defCapa = v('defectoCapa');
+    if (defCapa) {
+      drawSectionHeader('An\u00e1lisis de Defectolog\u00eda');
+      drawRow([
+        ['Capa del defecto', defCapa],
+        ['Tipo de defecto', v('defectoTipo') || '\u2014'],
+      ]);
+      drawRow([
+        ['Causa probable', v('defectoCausa') || '\u2014'],
+        ['Acci\u00f3n correctiva', v('defectoAccion') || '\u2014'],
+      ]);
+      y += 4;
+    }
+
+    // RESULTADO FINAL
+    checkPage(35);
+    y += 2;
+    var notaText = scoreCircle ? scoreCircle.textContent.trim() : '\u2014';
+    var notaNum = parseFloat(notaText.replace(',', '.'));
+    var aprobado = notaNum >= 5;
+    var scoreBg   = aprobado ? C.greenBg   : C.redBg;
+    var scoreFg   = aprobado ? C.greenText : C.redText;
+    var scoreLabel = aprobado ? 'APTO' : 'NO APTO';
+
+    doc.setFillColor(...scoreBg);
+    doc.roundedRect(M, y, CW, 28, 3, 3, 'F');
+    doc.setDrawColor(...scoreFg);
+    doc.roundedRect(M, y, CW, 28, 3, 3, 'S');
+    doc.setTextColor(...scoreFg);
+    doc.setFontSize(30);
+    doc.setFont('helvetica', 'bold');
+    doc.text(notaText, PW / 2, y + 16, { align: 'center' });
+    doc.setFontSize(11);
+    doc.text(scoreLabel, PW / 2, y + 24, { align: 'center' });
+    y += 32;
+
+    // PIE
+    doc.setDrawColor(...C.grayBorder);
+    doc.line(M, PH - 12, PW - M, PH - 12);
+    doc.setTextColor(...C.textMid);
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'normal');
+    doc.text('IES Remedios \u00b7 WPS M\u00f3dulo SAP \u00b7 ' + (v('fecha') || new Date().toLocaleDateString('es-ES')), PW / 2, PH - 8, { align: 'center' });
+    doc.text(pdfFilename, M, PH - 8);
+
+    return doc.output('blob');
+  }
+
+  // =============================================
   // ENVÍO A GOOGLE DRIVE (GOOGLE APPS SCRIPT)
   // =============================================
   const btnEnviarDrive = document.getElementById('btnEnviarDrive');
@@ -1083,62 +1301,19 @@ document.addEventListener('DOMContentLoaded', () => {
         let pdfBlob = null;
         let pdfBase64 = null;
 
-        if (typeof html2pdf !== 'undefined') {
-          // Capturamos los elementos reales (no clones) para que html2canvas
-          // los encuentre ya renderizados con sus estilos correctos.
-
-          const wpsForm = document.querySelector('.wps-form');
-          const containerEl = document.querySelector('.container');
-          const evalPanelEl = document.getElementById('evaluationPanel');
-          const livescoreEl = document.getElementById('livescoreBar');
-
-          // Guardar estados originales
-          const savedOpacity = wpsForm.style.opacity;
-
-          // Preparar página para captura
-          wpsForm.style.opacity = '1';
-          if (livescoreEl) livescoreEl.style.display = 'none';
-
-          // Ocultar botón y estado en el panel de resultados
-          const btnEnviarEl2 = evalPanelEl.querySelector('#btnEnviarDrive');
-          const statusEl2 = evalPanelEl.querySelector('#enviarDriveStatus');
-          if (btnEnviarEl2) btnEnviarEl2.style.display = 'none';
-          if (statusEl2) statusEl2.style.display = 'none';
-
-          // Envolver ambos elementos en un div temporal para captura conjunta
-          const pdfWrapper = document.createElement('div');
-          pdfWrapper.style.cssText = 'background:#fff;';
-          containerEl.parentNode.insertBefore(pdfWrapper, containerEl);
-          pdfWrapper.appendChild(containerEl);
-          pdfWrapper.appendChild(evalPanelEl);
-
+        if (typeof window.jspdf !== 'undefined') {
           try {
-            pdfBlob = await html2pdf().set({
-              margin: 8,
-              filename: pdfFilename,
-              image: { type: 'jpeg', quality: 0.88 },
-              html2canvas: { scale: 1.3, useCORS: true, allowTaint: true, logging: false },
-              jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            }).from(pdfWrapper).outputPdf('blob');
-
-            pdfBase64 = await new Promise((resolve, reject) => {
-              const reader = new FileReader();
-              reader.onloadend = () => resolve(reader.result.split(',')[1]);
-              reader.onerror = reject;
-              reader.readAsDataURL(pdfBlob);
-            });
+            pdfBlob = generarPDFWPS(pdfFilename);
+            if (pdfBlob) {
+              pdfBase64 = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result.split(',')[1]);
+                reader.onerror = reject;
+                reader.readAsDataURL(pdfBlob);
+              });
+            }
           } catch (pdfErr) {
             console.warn('Error generando PDF:', pdfErr);
-          } finally {
-            // Restaurar estructura DOM original
-            pdfWrapper.parentNode.insertBefore(containerEl, pdfWrapper);
-            pdfWrapper.parentNode.insertBefore(evalPanelEl, pdfWrapper);
-            pdfWrapper.parentNode.removeChild(pdfWrapper);
-
-            // Restaurar estados
-            wpsForm.style.opacity = savedOpacity;
-            if (btnEnviarEl2) { btnEnviarEl2.style.display = 'block'; btnEnviarEl2.disabled = true; }
-            if (statusEl2) statusEl2.style.display = 'block';
           }
         }
 
