@@ -1242,13 +1242,15 @@ document.addEventListener('DOMContentLoaded', () => {
     doc.text('IES Remedios \u00b7 WPS M\u00f3dulo SAP \u00b7 ' + (v('fecha') || new Date().toLocaleDateString('es-ES')), PW / 2, PH - 8, { align: 'center' });
     doc.text(pdfFilename, M, PH - 8);
 
-    // Devolver base64 directamente (sin FileReader) y blob para descarga
-    const dataUri = doc.output('datauristring');
-    const base64 = dataUri.split(',')[1];
-    const bytes = atob(base64);
-    const arr = new Uint8Array(bytes.length);
-    for (let i = 0; i < bytes.length; i++) arr[i] = bytes.charCodeAt(i);
-    return { blob: new Blob([arr], { type: 'application/pdf' }), base64: base64 };
+    // Convertir a blob y base64 usando arraybuffer
+    const ab = doc.output('arraybuffer');
+    const uint8 = new Uint8Array(ab);
+    let binary = '';
+    for (let i = 0; i < uint8.length; i += 8192) {
+      binary += String.fromCharCode.apply(null, uint8.subarray(i, i + 8192));
+    }
+    const base64 = btoa(binary);
+    return { blob: new Blob([uint8], { type: 'application/pdf' }), base64: base64 };
   }
 
   // =============================================
