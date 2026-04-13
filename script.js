@@ -1242,7 +1242,13 @@ document.addEventListener('DOMContentLoaded', () => {
     doc.text('IES Remedios \u00b7 WPS M\u00f3dulo SAP \u00b7 ' + (v('fecha') || new Date().toLocaleDateString('es-ES')), PW / 2, PH - 8, { align: 'center' });
     doc.text(pdfFilename, M, PH - 8);
 
-    return doc.output('blob');
+    // Devolver base64 directamente (sin FileReader) y blob para descarga
+    const dataUri = doc.output('datauristring');
+    const base64 = dataUri.split(',')[1];
+    const bytes = atob(base64);
+    const arr = new Uint8Array(bytes.length);
+    for (let i = 0; i < bytes.length; i++) arr[i] = bytes.charCodeAt(i);
+    return { blob: new Blob([arr], { type: 'application/pdf' }), base64: base64 };
   }
 
   // =============================================
@@ -1303,14 +1309,10 @@ document.addEventListener('DOMContentLoaded', () => {
         let pdfBase64 = null;
 
         try {
-          pdfBlob = generarPDFWPS(pdfFilename);
-          if (pdfBlob) {
-            pdfBase64 = await new Promise((resolve, reject) => {
-              const reader = new FileReader();
-              reader.onloadend = () => resolve(reader.result.split(',')[1]);
-              reader.onerror = reject;
-              reader.readAsDataURL(pdfBlob);
-            });
+          const pdfResult = generarPDFWPS(pdfFilename);
+          if (pdfResult) {
+            pdfBlob = pdfResult.blob;
+            pdfBase64 = pdfResult.base64;
           }
         } catch (pdfErr) {
           console.warn('Error generando PDF:', pdfErr);
